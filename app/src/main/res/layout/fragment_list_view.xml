@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     xmlns:tools="http://schemas.android.com/tools"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent"
+                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                     tools:context=".fragment.ListViewFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:background="#FAFAFA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+    <com.google.android.material.tabs.TabLayout
+            app:tabMode="scrollable"
+            android:id="@+id/tabListView"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monday"/>
+
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tuesday"/>
+
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wednesday"/>
+    </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpagerListView"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:src="@drawable/ic_home_black_24dp"
+            app:backgroundTint="#FAFAFA"
+            app:layout_behavior="com.sanlorng.classsample.helpler.ScrollAutoHide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:clickable="true" android:id="@id/homeFragment" app:layout_anchorGravity="right|bottom"
+            app:layout_anchor="@+id/viewpagerListView"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

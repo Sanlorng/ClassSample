@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/callPhone" android:icon="@drawable/ic_call_black_24dp" android:title="打电话" app:showAsAction="always"/>
+    <item android:id="@+id/sendToMessage" android:icon="@drawable/ic_message_black_24dp" android:title="发送短信" app:showAsAction="always"/>
+    <item android:id="@+id/openInBrowser" android:icon="@drawable/ic_open_in_browser_black_24dp" android:title="在浏览器打开" app:showAsAction="always"/>
+    <item android:id="@+id/takePhoto" android:icon="@drawable/ic_camera_alt_black_24dp" android:title="打开相机" app:showAsAction="always"/>
+    <item android:id="@+id/shareIntent" android:icon="@drawable/ic_share_black_24dp" android:title="分享信息" app:showAsAction="always"/>
+
+</menu>

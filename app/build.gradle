@@ -1,0 +1,67 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+def getVersionCode = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', '--all', '--count'
+            standardOutput = stdout
+        }
+        return Integer.parseInt(stdout.toString().trim())
+    }
+    catch (ignored) {
+        return -1
+    }
+}
+def getVersionName = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tag', '--dirty'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return "in Develop"
+    }
+}
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.sanlorng.classsample"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode getVersionCode()
+        versionName getVersionName()
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+final String ANDROIDX_VERSION = "1.1.0-alpha01"
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
+    //implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha09'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha09'
+    implementation 'androidx.core:core-ktx:1.1.0-alpha03'
+    implementation project(':kit')
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+}

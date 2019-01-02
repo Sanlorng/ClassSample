@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="nav_view">
+
+    <group android:checkableBehavior="single">
+        <item
+                android:checked="true"
+                android:id="@id/homeFragment"
+                android:icon="@drawable/ic_home_black_24dp"
+                android:title="Home" />
+        <item android:title="项目" >
+            <menu>
+                <group android:checkableBehavior="single">
+                <item
+                        android:id="@id/firstFragment"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="FirstSample" />
+                <item
+                        android:id="@id/intentFragment"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="SecondSample" />
+                <item
+                        android:id="@id/loginFragment"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="ThirdSample" />
+                <item
+                        android:id="@id/listViewFragment"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="FourSample" />
+                <item
+                        android:id="@id/sharedPreferencesFragment"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="FiveSample" />
+                <item
+                        android:id="@id/musicFragment"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="SixSample" />
+                <item
+                        android:id="@id/toastFragment"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="SixSample" />
+                <item
+                        android:id="@id/networkFragment"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="SixSample" />
+                </group>
+            </menu>
+        </item>
+
+    </group>
+
+
+
+</menu>

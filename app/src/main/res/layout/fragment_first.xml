@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".fragment.FirstFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+                                           android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+
+        <EditText
+                android:layout_marginTop="192dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:hint="输入任意内容，并点击下面的Button"
+                android:id="@+id/editText_first"/>
+        <Button
+                android:text="点击弹出Toast显示输入的文本"
+                android:layout_margin="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/button_first"/>
+        <Button
+                android:text="返回首页"
+                android:layout_margin="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@id/homeFragment"/>
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>
