@@ -7,9 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 
 import com.sanlorng.classsample.R
+import com.sanlorng.classsample.activity.DataBaseActivity
+import com.sanlorng.classsample.activity.LoginActivity
+import com.sanlorng.classsample.helper.navigationDefaultAnim
+import com.sanlorng.kit.startActivity
+import kotlinx.android.synthetic.main.fragment_shared_preferences.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +36,18 @@ class SharedPreferencesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_shared_preferences, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        button_login_share.setOnClickListener {
+            context?.startActivity(LoginActivity::class.java)
+        }
+        button_data_base.setOnClickListener {
+            context?.startActivity(DataBaseActivity::class.java)
+        }
+        homeFragment.setOnClickListener {
+            findNavController().navigationDefaultAnim(it.id)
+        }
+    }
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.sharedPreferencesFragment)

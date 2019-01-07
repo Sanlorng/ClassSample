@@ -13,12 +13,12 @@
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/button_login_login"/>
+            android:layout_height="wrap_content" android:id="@+id/button_login_share"/>
     <Button
             android:text="查看数据库内容"
             android:layout_margin="32dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/button_process_login"/>
+            android:layout_height="wrap_content" android:id="@+id/button_data_base"/>
     <Button
             android:text="返回首页"
             android:layout_margin="32dp"
