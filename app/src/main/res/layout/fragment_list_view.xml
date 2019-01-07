@@ -43,7 +43,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:src="@drawable/ic_home_black_24dp"
             app:backgroundTint="#FAFAFA"
-            app:layout_behavior="com.sanlorng.classsample.helpler.ScrollAutoHide"
+            app:layout_behavior="com.sanlorng.classsample.helper.ScrollAutoHide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
