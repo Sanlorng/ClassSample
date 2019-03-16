@@ -32,6 +32,7 @@ class FirstFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first, container, false)
     }
+
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.firstFragment)
@@ -44,9 +45,9 @@ class FirstFragment : Fragment() {
             button_first.setOnClickListener {
                 val string = editText_first.text.toString()
                 if (string.isEmpty())
-                    Toast.makeText(context!!,"请输入内容",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context!!, "请输入内容", Toast.LENGTH_SHORT).show()
                 else
-                    Toast.makeText(context!!, "你输入了：$string",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context!!, "你输入了：$string", Toast.LENGTH_LONG).show()
             }
             homeFragment.setOnClickListener {
                 findNavController().navigateUp()

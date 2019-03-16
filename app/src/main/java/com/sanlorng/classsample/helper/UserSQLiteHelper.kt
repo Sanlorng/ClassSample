@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.sanlorng.classsample.entry.UserEntry
 
-class UserSQLiteHelper(val context: Context):SQLiteOpenHelper(context, DB_NAME,null,DB_VERSION){
+class UserSQLiteHelper(val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
         const val CREATE_TABLE_SQL = "CREATE TABLE ${UserEntry.TABLE_NAME} (" +
                 "${UserEntry.COULMN_ID} integer primary key autoincrement, " +

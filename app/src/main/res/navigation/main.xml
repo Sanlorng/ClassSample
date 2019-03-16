@@ -1,28 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main"
-            app:startDestination="@id/homeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/homeFragment">
 
-    <fragment android:id="@+id/homeFragment" android:name="com.sanlorng.classsample.fragment.HomeFragment"
-              android:label="fragment_home" tools:layout="@layout/fragment_home">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.sanlorng.classsample.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
 
     </fragment>
-    <fragment android:id="@+id/firstFragment" android:name="com.sanlorng.classsample.fragment.FirstFragment"
-              android:label="fragment_first" tools:layout="@layout/fragment_first"/>
-    <fragment android:id="@+id/intentFragment" android:name="com.sanlorng.classsample.fragment.IntentFragment"
-              android:label="fragment_intent" tools:layout="@layout/fragment_intent"/>
-    <fragment android:id="@+id/loginFragment" android:name="com.sanlorng.classsample.fragment.LoginFragment"
-              android:label="fragment_login" tools:layout="@layout/fragment_login"/>
-    <fragment android:id="@+id/musicFragment" android:name="com.sanlorng.classsample.fragment.MusicFragment"
-              android:label="fragment_music" tools:layout="@layout/fragment_music"/>
-    <fragment android:id="@+id/networkFragment" android:name="com.sanlorng.classsample.fragment.NetworkFragment"
-              android:label="fragment_network" tools:layout="@layout/fragment_network"/>
-    <fragment android:id="@+id/sharedPreferencesFragment"
-              android:name="com.sanlorng.classsample.fragment.SharedPreferencesFragment"
-              android:label="fragment_shared_preferences" tools:layout="@layout/fragment_shared_preferences"/>
-    <fragment android:id="@+id/toastFragment" android:name="com.sanlorng.classsample.fragment.ToastFragment"
-              android:label="fragment_toast" tools:layout="@layout/fragment_toast"/>
-    <fragment android:id="@+id/listViewFragment" android:name="com.sanlorng.classsample.fragment.ListViewFragment"
-              android:label="fragment_list_view" tools:layout="@layout/fragment_list_view"/>
+    <fragment
+        android:id="@+id/firstFragment"
+        android:name="com.sanlorng.classsample.fragment.FirstFragment"
+        android:label="fragment_first"
+        tools:layout="@layout/fragment_first" />
+    <fragment
+        android:id="@+id/intentFragment"
+        android:name="com.sanlorng.classsample.fragment.IntentFragment"
+        android:label="fragment_intent"
+        tools:layout="@layout/fragment_intent" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.sanlorng.classsample.fragment.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/musicFragment"
+        android:name="com.sanlorng.classsample.fragment.MusicFragment"
+        android:label="fragment_music"
+        tools:layout="@layout/fragment_music" />
+    <fragment
+        android:id="@+id/networkFragment"
+        android:name="com.sanlorng.classsample.fragment.NetworkFragment"
+        android:label="fragment_network"
+        tools:layout="@layout/fragment_network" />
+    <fragment
+        android:id="@+id/sharedPreferencesFragment"
+        android:name="com.sanlorng.classsample.fragment.SharedPreferencesFragment"
+        android:label="fragment_shared_preferences"
+        tools:layout="@layout/fragment_shared_preferences" />
+    <fragment
+        android:id="@+id/toastFragment"
+        android:name="com.sanlorng.classsample.fragment.ToastFragment"
+        android:label="fragment_toast"
+        tools:layout="@layout/fragment_toast" />
+    <fragment
+        android:id="@+id/listViewFragment"
+        android:name="com.sanlorng.classsample.fragment.ListViewFragment"
+        android:label="fragment_list_view"
+        tools:layout="@layout/fragment_list_view" />
 </navigation>

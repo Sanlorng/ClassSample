@@ -23,7 +23,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class HomeFragment : Fragment(),View.OnClickListener {
+class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +46,7 @@ class HomeFragment : Fragment(),View.OnClickListener {
         networkFragment.setOnClickListener(this)
 
     }
+
     override fun onClick(v: View?) {
         findNavController().navigationDefaultAnim(v!!.id)
     }

@@ -31,7 +31,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class ListViewFragment : Fragment() {
     lateinit var listFragment: Array<Fragment>
-    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,7 +45,7 @@ class ListViewFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(context!!, permissions[1]) == PackageManager.PERMISSION_GRANTED)
             loadLayout()
         else
-            requestPermissions(permissions,1)
+            requestPermissions(permissions, 1)
     }
 
     private fun loadLayout() {
@@ -53,7 +53,7 @@ class ListViewFragment : Fragment() {
             ListShowFragment.newInstance("fruit"),
             ListShowFragment.newInstance("image")
         )
-        homeFragment.setOnClickListener { findNavController().navigationDefaultAnim(R.id.homeFragment) }
+        homeFragment.setOnClickListener { findNavController().navigateUp() }
         viewpagerListView.adapter = FragmentViewPagerAdapter(childFragmentManager)
         tabListView.setupWithViewPager(viewpagerListView)
     }
@@ -63,7 +63,8 @@ class ListViewFragment : Fragment() {
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.listViewFragment)
         (activity as AppCompatActivity).supportActionBar?.title = "ListView的应用"
     }
-    inner class FragmentViewPagerAdapter(fm:FragmentManager):FragmentPagerAdapter(fm){
+
+    inner class FragmentViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getPageTitle(position: Int): CharSequence? {
             return listFragment[position].arguments?.getString("param1")
         }
@@ -79,9 +80,9 @@ class ListViewFragment : Fragment() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty()&&grantResults[1] == PackageManager.PERMISSION_GRANTED)
+        if (grantResults.isNotEmpty() && grantResults[1] == PackageManager.PERMISSION_GRANTED)
             loadLayout()
         else
-            Toast.makeText(context!!,"请授予应用存储权限",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context!!, "请授予应用存储权限", Toast.LENGTH_SHORT).show()
     }
 }

@@ -2,22 +2,21 @@ package com.sanlorng.classsample.fragment
 
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.sanlorng.classsample.R
 import kotlinx.android.synthetic.main.fragment_list_show.*
 import kotlinx.android.synthetic.main.list_item.view.*
-import java.io.File
 import java.text.DateFormat
 import java.util.*
 
@@ -38,7 +37,7 @@ class ListShowFragment : Fragment() {
     private var type: String? = null
     private var param2: String? = null
     val projection = arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media.DATE_TAKEN)
-    lateinit var task: LoadImageTask
+    private lateinit var task: LoadImageTask
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -95,7 +94,6 @@ class ListShowFragment : Fragment() {
          * this fragment using the provided parameters.
          *
          * @param type Parameter 1.
-         * @param param2 Parameter 2.
          * @return A new instance of fragment ListShowFragment.
          */
         // TODO: Rename and change types and number of parameters
@@ -111,7 +109,7 @@ class ListShowFragment : Fragment() {
 
     @SuppressLint("StaticFieldLeak")
     inner class LoadImageTask : AsyncTask<String, Void, Boolean>() {
-         var list: ArrayList<Image>? = null
+        var list: ArrayList<Image>? = null
         override fun doInBackground(vararg params: String?): Boolean {
             val cursor = context!!.contentResolver
                 .query(
@@ -144,12 +142,14 @@ class ListShowFragment : Fragment() {
         override fun onPostExecute(result: Boolean) {
             super.onPostExecute(result)
             if (result) {
-                listView.adapter = object :ArrayAdapter<Image>(context!!,R.layout.list_item,list!!){
+                listView.adapter = object : ArrayAdapter<Image>(context!!, R.layout.list_item, list!!) {
                     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                        val view = layoutInflater.inflate(R.layout.list_item,parent, false)
+                        val view = layoutInflater.inflate(R.layout.list_item, parent, false)
                         view.run {
                             val item = list!![position]
-                            imageViewItem.setImageURI(Uri.parse(item.path))
+                            Glide.with(this@ListShowFragment)
+                                .load(list!![position].path)
+                                .into(imageViewItem)
                             textViewItem.text = item.path.split("/").last()
                         }
                         return view
@@ -168,7 +168,7 @@ class ListShowFragment : Fragment() {
                 listView.setOnItemLongClickListener { parent, view, position, id ->
                     val item = list!![position]
                     val dialog = AlertDialog.Builder(context!!)
-                        .setPositiveButton("确定") { dialog, _ -> list!!.removeAt(position);(listView.adapter as ArrayAdapter<*>).notifyDataSetChanged()}
+                        .setPositiveButton("确定") { dialog, _ -> list!!.removeAt(position);(listView.adapter as ArrayAdapter<*>).notifyDataSetChanged() }
                         .setNegativeButton("取消") { dialog, _ -> dialog.dismiss() }
                         .setTitle("删除")
                         .setMessage("确定删除${item.path.split("/").last()}吗?")
@@ -179,10 +179,11 @@ class ListShowFragment : Fragment() {
                     true
                 }
             } else {
-                Toast.makeText(context,"未找到照片",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "未找到照片", Toast.LENGTH_SHORT).show()
             }
         }
 
     }
+
     data class Image(val path: String, val date: String)
 }

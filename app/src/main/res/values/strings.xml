@@ -9,4 +9,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">首页</string>
+    <string name="project">项目</string>
+    <string name="dev_android_first">初始Android开发</string>
+    <string name="intent_usage">Intent意图</string>
+    <string name="sign_in_and_dialog">登录与对话控件</string>
+    <string name="list_view_usage">ListView列表</string>
+    <string name="data_and_share_preferences_usage">数据库与数据持久化</string>
+    <string name="music_player">音乐播放器</string>
+    <string name="notification_broad_usage">通知和广播</string>
+    <string name="ok_http_usage">OkHttp的应用</string>
 </resources>

@@ -45,9 +45,10 @@ class SharedPreferencesFragment : Fragment() {
             context?.startActivity(DataBaseActivity::class.java)
         }
         homeFragment.setOnClickListener {
-            findNavController().navigationDefaultAnim(it.id)
+            findNavController().navigateUp()
         }
     }
+
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.sharedPreferencesFragment)

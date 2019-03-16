@@ -47,21 +47,27 @@ android {
         }
     }
 }
-final String ANDROIDX_VERSION = "1.1.0-alpha01"
+final String ANDROIDX_VERSION = "1.1.0-alpha02"
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
     //implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha09'
-    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha09'
-    implementation 'androidx.core:core-ktx:1.1.0-alpha03'
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-rc02'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-rc02'
+    implementation 'androidx.core:core-ktx:1.1.0-alpha04'
     implementation project(':kit')
     implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'androidx.media:media:1.0.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 }

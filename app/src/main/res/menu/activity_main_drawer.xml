@@ -5,51 +5,42 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:checked="true"
-                android:id="@id/homeFragment"
-                android:icon="@drawable/ic_home_black_24dp"
-                android:title="Home" />
-        <item android:title="项目" >
+            android:checked="true"
+            android:id="@id/homeFragment"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/home" />
+        <item android:title="@string/project">
             <menu>
                 <group android:checkableBehavior="single">
-                <item
+                    <item
                         android:id="@id/firstFragment"
-                        android:icon="@drawable/ic_menu_manage"
-                        android:title="FirstSample" />
-                <item
+                        android:title="@string/dev_android_first" />
+                    <item
                         android:id="@id/intentFragment"
-                        android:icon="@drawable/ic_menu_manage"
-                        android:title="SecondSample" />
-                <item
+                        android:title="@string/intent_usage" />
+                    <item
                         android:id="@id/loginFragment"
-                        android:icon="@drawable/ic_menu_manage"
-                        android:title="ThirdSample" />
-                <item
+                        android:title="@string/sign_in_and_dialog" />
+                    <item
                         android:id="@id/listViewFragment"
-                        android:icon="@drawable/ic_menu_manage"
-                        android:title="FourSample" />
-                <item
+                        android:title="@string/list_view_usage" />
+                    <item
                         android:id="@id/sharedPreferencesFragment"
-                        android:icon="@drawable/ic_menu_manage"
-                        android:title="FiveSample" />
-                <item
+                        android:title="@string/data_and_share_preferences_usage" />
+                    <item
                         android:id="@id/musicFragment"
-                        android:icon="@drawable/ic_menu_manage"
-                        android:title="SixSample" />
-                <item
+                        android:title="@string/music_player" />
+                    <item
                         android:id="@id/toastFragment"
-                        android:icon="@drawable/ic_menu_manage"
-                        android:title="SixSample" />
-                <item
+                        android:title="@string/notification_broad_usage" />
+                    <item
                         android:id="@id/networkFragment"
-                        android:icon="@drawable/ic_menu_manage"
-                        android:title="SixSample" />
+                        android:title="@string/ok_http_usage" />
                 </group>
             </menu>
         </item>
 
     </group>
-
 
 
 </menu>

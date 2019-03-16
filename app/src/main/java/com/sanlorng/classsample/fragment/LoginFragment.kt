@@ -47,10 +47,10 @@ class LoginFragment : Fragment() {
             findNavController().navigateUp()
         }
         button_login_login.setOnClickListener {
-            startActivity(Intent(context,LoginActivity::class.java))
+            startActivity(Intent(context, LoginActivity::class.java))
         }
         button_process_login.setOnClickListener {
-            startActivity(Intent(context,DialogProcessActivity::class.java))
+            startActivity(Intent(context, DialogProcessActivity::class.java))
         }
     }
 }

@@ -1,74 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-              android:orientation="vertical"
-             tools:context=".fragment.HomeFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.HomeFragment">
 
     <Button
-            android:text="项目1"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:id="@id/firstFragment"/>
+        android:text="@string/dev_android_first"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@id/firstFragment" />
+
     <Button
-            android:text="项目2"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:id="@id/intentFragment"/>
+        android:text="@string/intent_usage"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@id/intentFragment" />
+
     <Button
-            android:text="项目3"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:id="@id/loginFragment"/>
+        android:text="@string/sign_in_and_dialog"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@id/loginFragment" />
+
     <Button
-            android:text="项目4"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:id="@id/listViewFragment"/>
+        android:text="@string/list_view_usage"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@id/listViewFragment" />
+
     <Button
-            android:text="项目5"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:id="@id/sharedPreferencesFragment"/>
+        android:text="@string/data_and_share_preferences_usage"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@id/sharedPreferencesFragment" />
+
     <Button
-            android:text="项目6"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:id="@id/musicFragment"/>
+        android:text="@string/music_player"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@id/musicFragment" />
+
     <Button
-            android:text="项目7"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:id="@id/toastFragment"/>
+        android:text="@string/notification_broad_usage"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@id/toastFragment" />
+
     <Button
-            android:text="项目8"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:id="@id/networkFragment"/>
+        android:text="@string/ok_http_usage"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@id/networkFragment" />
 </LinearLayout>
