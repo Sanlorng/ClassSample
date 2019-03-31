@@ -13,14 +13,14 @@
         android:layout_marginEnd="@dimen/padding_item_main_fragment"
         android:layout_marginStart="@dimen/padding_item_main_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:id="@+id/button_login_share" />
 
     <Button
         android:text="@string/readDatabaseContent"
         android:layout_margin="@dimen/padding_item_main_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:id="@+id/button_data_base" />
 
 </LinearLayout>
