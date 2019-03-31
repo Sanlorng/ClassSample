@@ -112,7 +112,7 @@ class PlayMusicService : Service() {
             playHistory.push(playIndex)
             while (true) {
                 val temp = Random.nextInt(playList.size)
-                if (temp != playIndex) {
+                if (playList.size==1||temp != playIndex) {
                     playIndex = temp
                     break
                 }
