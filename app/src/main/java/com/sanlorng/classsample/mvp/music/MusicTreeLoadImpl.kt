@@ -112,7 +112,7 @@ class MusicTreeLoadImpl {
                 MusicModel(
                     id = 0,
                     title = "sample",
-                    path = "raw",
+                    path = "android.resource://${context.packageName}/${R.raw.sample}",
                     artist = "sanlorng",
                     album = "sample",
                     duration = 0,

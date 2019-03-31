@@ -17,6 +17,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.sanlorng.classsample.R
+import com.sanlorng.classsample.helper.App
 import com.sanlorng.classsample.model.MusicModel
 import com.sanlorng.classsample.mvp.base.BaseListView
 import com.sanlorng.classsample.mvp.music.MusicTreeLoadImpl
@@ -177,13 +178,30 @@ class MusicPlayActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        musicBinder?.apply {
+            addPlayingCallBack(controlTag) { currentPosition, total ->
+                playingMusic.apply {
+                    if (isDrag.not())
+                        seekBarPlayingActivity.progress = currentPosition
+                    seekBarPlayingActivity.max = total
+                }
+            }
+        }
+    }
+
     override fun onStop() {
         super.onStop()
-
+        musicBinder?.apply {
+            removePlayingCallBack(controlTag)
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        App.onMusicActivity = false
         musicBinder?.removeAllListeners(controlTag)
         try {
             unbindService(conn)

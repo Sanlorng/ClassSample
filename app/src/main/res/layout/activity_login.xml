@@ -17,10 +17,10 @@
         android:id="@+id/toolbar_login" />
 
     <TextView
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="0dp"
         android:text="@string/login"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
+        android:paddingStart="@dimen/padding_item_main_fragment"
+        android:paddingEnd="@dimen/padding_item_main_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="#00ffffff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/input_pass"

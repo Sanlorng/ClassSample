@@ -13,7 +13,9 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.media.MediaBrowserServiceCompat
+import com.sanlorng.classsample.BuildConfig
 import com.sanlorng.classsample.R
 import com.sanlorng.classsample.model.MusicModel
 import kotlinx.coroutines.*
@@ -74,8 +76,8 @@ class PlayMusicService : Service() {
                 if (isPlaying)
                     stop()
                     reset()
-                if (path == "raw")
-                    setDataSource(this@PlayMusicService, Uri.parse("android.resource://$packageName/${R.raw.sample}"))
+                if (path.startsWith("android.resource://"))
+                    setDataSource(this@PlayMusicService, path.toUri())
                 else
                     setDataSource(path)
                     prepare()
@@ -108,7 +110,13 @@ class PlayMusicService : Service() {
 
         fun nextPlay() {
             playHistory.push(playIndex)
-            playIndex = Random.nextInt(playList.size)
+            while (true) {
+                val temp = Random.nextInt(playList.size)
+                if (temp != playIndex) {
+                    playIndex = temp
+                    break
+                }
+            }
             play(playList[playIndex].path)
         }
 
@@ -121,19 +129,27 @@ class PlayMusicService : Service() {
             }
         }
         private fun startCallBack(){
-            if (job == null)
+            if (BuildConfig.DEBUG)
+                Log.e("startCallBack","true")
+            if (job == null&&callBacks.isNotEmpty())
                 job = GlobalScope.launch {
                     while (true) {
-                        delay(1000)
                         withContext(Dispatchers.Main) {
-                            callBacks.forEach {
-                                it.value.invoke(mPlayer.currentPosition, mPlayer.duration)
+                            if (callBacks.isEmpty()) {
+                                stopCallBack()
+                            }
+                            else
+                                callBacks.forEach {
+                                    it.value.invoke(mPlayer.currentPosition, mPlayer.duration)
                             }
                         }
+                        delay(200)
                     }
                 }
         }
         private fun stopCallBack() {
+            if (BuildConfig.DEBUG)
+            Log.e("stopCallBack","true")
             job?.cancel()
             job = null
         }
@@ -177,6 +193,8 @@ class PlayMusicService : Service() {
 
         fun addPlayingCallBack(tag: String,callBack:(currentPosition: Int, total: Int) -> Unit) {
             callBacks[tag] = callBack
+            if (isPlaying)
+                startCallBack()
         }
 
         fun removeOnResumeListener(tag: String) {

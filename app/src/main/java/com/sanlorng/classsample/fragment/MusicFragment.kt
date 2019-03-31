@@ -28,6 +28,7 @@ import com.sanlorng.classsample.BuildConfig
 
 import com.sanlorng.classsample.R
 import com.sanlorng.classsample.activity.MusicPlayActivity
+import com.sanlorng.classsample.helper.App
 import com.sanlorng.classsample.model.*
 import com.sanlorng.classsample.mvp.base.BaseListView
 import com.sanlorng.classsample.mvp.music.MusicTreeLoadImpl
@@ -166,6 +167,7 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
     private fun loadLayout() {
 
         toolbarMusicFragment.setOnClickListener {
+            App.onMusicActivity = true
             context?.startActivity(MusicPlayActivity::class.java)
         }
         if (MusicTreeLoadImpl.isInit.not())
@@ -200,7 +202,16 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.musicFragment)
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.music_player)
         activity?.invalidateOptionsMenu()
-
+        musicBinder?.apply {
+            addPlayingCallBack(listenerTag) { currentPosition, total ->
+                playingMusic.apply {
+                    indicatorPlayingMusicFragment?.apply {
+                        progress = currentPosition
+                        max = total
+                    }
+                }
+            }
+        }
 //        context?.bindService(Intent(context!!,PlayMusicService::class.java),conn,Service.BIND_AUTO_CREATE)
     }
 
@@ -247,6 +258,9 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
         super.onStop()
         if (BuildConfig.DEBUG)
             Log.e("onStop","true")
+        musicBinder?.apply {
+            removePlayingCallBack(listenerTag)
+        }
     }
 
     override fun onPause() {

@@ -40,6 +40,16 @@ android {
         versionName getVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def buildTypeName = variant.buildType.name
+            println("buildType ----------->" + buildTypeName)
+            def fileName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${defaultConfig.versionCode}_${buildTypeName}.apk"
+            outputFileName = fileName
+        }
+    }
+
     signingConfigs {
         release {
             storeFile file(KEY_STORE_FILE)

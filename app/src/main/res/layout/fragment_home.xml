@@ -100,7 +100,7 @@
             <Button
                 android:text="@string/ok_http_usage"
                 android:layout_marginTop="@dimen/margin_top_item_main_fragment"
-                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_marginBottom="@dimen/padding_item_main_fragment"
                 android:layout_marginStart="@dimen/margin_home_button"
                 android:layout_marginEnd="@dimen/margin_home_button"
                 android:layout_gravity="center"
