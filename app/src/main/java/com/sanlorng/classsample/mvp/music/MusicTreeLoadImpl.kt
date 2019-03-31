@@ -4,6 +4,7 @@ import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.Log
+import com.sanlorng.classsample.R
 import com.sanlorng.classsample.model.*
 import com.sanlorng.classsample.mvp.base.BaseListView
 import com.sanlorng.classsample.mvp.base.BasePresenterImpl
@@ -104,8 +105,21 @@ class MusicTreeLoadImpl {
         return (content.contains(key)&&strictMode.not())||content == key&&strictMode
     }
     fun scanMediaStore(context: Context){
+        MusicTreeLoadImpl.isInit = true
         GlobalScope.launch {
             musicList.clear()
+            musicList.add(
+                MusicModel(
+                    id = 0,
+                    title = "sample",
+                    path = "raw",
+                    artist = "sanlorng",
+                    album = "sample",
+                    duration = 0,
+                    albumId = 0,
+                    fileName = "sample",
+                    fileSize = 0
+            ))
             context.contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 musicSelection,
@@ -171,6 +185,7 @@ class MusicTreeLoadImpl {
     }
 
     companion object {
+        var isInit = false
         private val instance by lazy(LazyThreadSafetyMode.NONE) {
             MusicTreeLoadImpl()
         }

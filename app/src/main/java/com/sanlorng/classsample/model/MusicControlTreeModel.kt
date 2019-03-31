@@ -31,9 +31,9 @@ data class MusicModel(val id: Long,
 
 data class MusicRequest(val type:String, val key: String)
 object RequestType {
-    const val ARTIST = "artist"
-    const val ALBUM = "album"
-    const val FOLDER = "folder"
-    const val LIST = "list"
+    const val ARTIST = "艺术家"
+    const val ALBUM = "专辑"
+    const val FOLDER = "文件夹"
+    const val LIST = "所有音乐"
     const val NULL = ""
 }

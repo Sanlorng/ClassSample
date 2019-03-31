@@ -43,10 +43,10 @@
         android:label="fragment_shared_preferences"
         tools:layout="@layout/fragment_shared_preferences" />
     <fragment
-        android:id="@+id/toastFragment"
-        android:name="com.sanlorng.classsample.fragment.ToastFragment"
+        android:id="@+id/notificationFragment"
+        android:name="com.sanlorng.classsample.fragment.NotificationFragment"
         android:label="fragment_toast"
-        tools:layout="@layout/fragment_toast" />
+        tools:layout="@layout/fragment_notification" />
     <fragment
         android:id="@+id/listViewFragment"
         android:name="com.sanlorng.classsample.fragment.ListViewFragment"

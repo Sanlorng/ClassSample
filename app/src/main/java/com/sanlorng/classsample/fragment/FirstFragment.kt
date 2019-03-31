@@ -36,7 +36,8 @@ class FirstFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.firstFragment)
-        (activity!! as AppCompatActivity).supportActionBar?.title = "初识Android 开发"
+        (activity!! as AppCompatActivity).supportActionBar?.title = getString(R.string.dev_android_first)
+        activity?.invalidateOptionsMenu()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,9 +50,7 @@ class FirstFragment : Fragment() {
                 else
                     Toast.makeText(context!!, "你输入了：$string", Toast.LENGTH_LONG).show()
             }
-            homeFragment.setOnClickListener {
-                findNavController().navigateUp()
-            }
+
 
         }
     }

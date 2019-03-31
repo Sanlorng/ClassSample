@@ -19,39 +19,49 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:text="简单对话框"
-        android:layout_marginTop="192dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_ok_dialog" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:text="@string/simpleDialog"
+                android:layout_marginTop="168dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/button_ok_dialog" />
 
-    <Button
-        android:text="单选对话框"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_single_dialog" />
+            <Button
+                android:text="@string/singleDialog"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/button_single_dialog" />
 
-    <Button
-        android:text="多选对话框"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_multi_dialog" />
+            <Button
+                android:text="@string/multiDialog"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/button_multi_dialog" />
 
-    <Button
-        android:text="登录对话框"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_login_dialog" />
+            <Button
+                android:text="@string/loginDialog"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/button_login_dialog" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

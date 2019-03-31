@@ -18,7 +18,7 @@ class HiddenActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         textView_hidden.text = intent.getStringExtra("message")
-        window.translucentSystemUI()
+        window.translucentSystemUI(true)
         window.navigationBarLight(false)
     }
 }

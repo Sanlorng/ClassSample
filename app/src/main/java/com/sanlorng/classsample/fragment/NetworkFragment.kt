@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.navigation.NavigationView
 
 import com.sanlorng.classsample.R
@@ -32,6 +33,8 @@ class NetworkFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.networkFragment)
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.ok_http_usage)
+        activity?.invalidateOptionsMenu()
     }
 
 }

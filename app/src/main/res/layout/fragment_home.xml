@@ -6,76 +6,108 @@
     android:orientation="vertical"
     tools:context=".fragment.HomeFragment">
 
-    <Button
-        android:text="@string/dev_android_first"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:id="@id/firstFragment" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:text="@string/dev_android_first"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_marginStart="@dimen/margin_home_button"
+                android:layout_marginEnd="@dimen/margin_home_button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@id/firstFragment" />
 
-    <Button
-        android:text="@string/intent_usage"
-        android:layout_margin="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:id="@id/intentFragment" />
+            <Button
+                android:text="@string/intent_usage"
+                android:layout_marginTop="@dimen/margin_top_item_main_fragment"
+                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_marginStart="@dimen/margin_home_button"
+                android:layout_marginEnd="@dimen/margin_home_button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@id/intentFragment" />
 
-    <Button
-        android:text="@string/sign_in_and_dialog"
-        android:layout_margin="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:id="@id/loginFragment" />
+            <Button
+                android:text="@string/sign_in_and_dialog"
+                android:layout_marginTop="@dimen/margin_top_item_main_fragment"
+                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_marginStart="@dimen/margin_home_button"
+                android:layout_marginEnd="@dimen/margin_home_button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@id/loginFragment" />
 
-    <Button
-        android:text="@string/list_view_usage"
-        android:layout_margin="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:id="@id/listViewFragment" />
+            <Button
+                android:text="@string/list_view_usage"
+                android:layout_marginTop="@dimen/margin_top_item_main_fragment"
+                android:layout_marginEnd="@dimen/margin_home_button"
+                android:layout_marginStart="@dimen/margin_home_button"
+                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@id/listViewFragment" />
 
-    <Button
-        android:text="@string/data_and_share_preferences_usage"
-        android:layout_margin="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:id="@id/sharedPreferencesFragment" />
+            <Button
+                android:text="@string/data_and_share_preferences_usage"
+                android:layout_marginTop="@dimen/margin_top_item_main_fragment"
+                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_marginStart="@dimen/margin_home_button"
+                android:layout_marginEnd="@dimen/margin_home_button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@id/sharedPreferencesFragment" />
 
-    <Button
-        android:text="@string/music_player"
-        android:layout_margin="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:id="@id/musicFragment" />
+            <Button
+                android:text="@string/music_player"
+                android:layout_marginTop="@dimen/margin_top_item_main_fragment"
+                android:layout_marginEnd="@dimen/margin_home_button"
+                android:layout_marginStart="@dimen/margin_home_button"
+                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@id/musicFragment" />
 
-    <Button
-        android:text="@string/notification_broad_usage"
-        android:layout_margin="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:id="@id/toastFragment" />
+            <Button
+                android:text="@string/notification_broad_usage"
+                android:layout_marginTop="@dimen/margin_top_item_main_fragment"
+                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_marginStart="@dimen/margin_home_button"
+                android:layout_marginEnd="@dimen/margin_home_button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@id/notificationFragment" />
 
-    <Button
-        android:text="@string/ok_http_usage"
-        android:layout_margin="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:id="@id/networkFragment" />
+            <Button
+                android:text="@string/ok_http_usage"
+                android:layout_marginTop="@dimen/margin_top_item_main_fragment"
+                android:layout_marginBottom="@dimen/margin_top_item_main_fragment"
+                android:layout_marginStart="@dimen/margin_home_button"
+                android:layout_marginEnd="@dimen/margin_home_button"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@id/networkFragment" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

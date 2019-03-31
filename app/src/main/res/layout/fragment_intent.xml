@@ -7,51 +7,58 @@
     tools:context=".fragment.IntentFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <EditText
-        android:layout_marginTop="160dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="输入你想在MessageActivity显示的内容"
-        android:ems="10"
-        android:id="@+id/editText_intent" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_marginTop="160dp"
+                    android:layout_marginStart="@dimen/padding_item_main_fragment"
+                    android:layout_marginEnd="@dimen/padding_item_main_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="@string/inputContent"
+                    android:background="#00000000"
+                    android:ems="10"
+                    android:id="@+id/editText_intent" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:text="@string/startMessageActivity"
+                android:layout_margin="@dimen/padding_item_main_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/button_message_intent" />
 
-    <Button
-        android:text="启动MessageActivity"
-        android:layout_margin="32dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_message_intent" />
+            <Button
+                android:text="@string/startHiddenActivity"
+                android:layout_margin="@dimen/padding_item_main_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/button_hidden_intent" />
 
-    <Button
-        android:text="启动HiddenActivity"
 
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_hidden_intent" />
+            <androidx.appcompat.widget.Toolbar android:layout_gravity="center"
+                android:layout_margin="32dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                app:title="隐式意图"
+                android:elevation="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_round"
+                android:theme="@style/Kit.Light"
+                android:minHeight="?attr/actionBarSize"
+                android:id="@+id/toolbar_intent" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    <Button
-        android:text="返回首页"
-        android:layout_margin="32dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@id/homeFragment" />
 
-    <androidx.appcompat.widget.Toolbar android:layout_gravity="center"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:title="隐式意图"
-        android:elevation="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/circle_round"
-        android:theme="@style/Kit.Light"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar_intent" />
+
 
 </LinearLayout>

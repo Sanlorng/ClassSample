@@ -13,6 +13,10 @@ import com.sanlorng.kit.navigationBarLight
 import com.sanlorng.kit.translucentSystemUI
 import kotlinx.android.synthetic.main.activity_data_base.*
 import kotlinx.android.synthetic.main.user_item.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DataBaseActivity : AppCompatActivity() {
 
@@ -24,10 +28,10 @@ class DataBaseActivity : AppCompatActivity() {
         toolbar_data_base.setNavigationOnClickListener {
             finish()
         }
-        window.translucentSystemUI()
+        window.translucentSystemUI(true)
         window.navigationBarLight(true)
-        Thread {
-            val dbHelper = UserSQLiteHelper(this)
+        GlobalScope.launch {
+            val dbHelper = UserSQLiteHelper(this@DataBaseActivity)
             val db = dbHelper.readableDatabase
             val cursor = db.query(UserEntry.TABLE_NAME, null, null, null, null, null, null)
             val items = ArrayList<UserEntry>()
@@ -42,8 +46,8 @@ class DataBaseActivity : AppCompatActivity() {
                 items.add(user)
             }
             cursor.close()
-            runOnUiThread {
-                list_user_data.adapter = object : ArrayAdapter<UserEntry>(this, R.layout.user_item, items) {
+            withContext(Dispatchers.Main){
+                list_user_data.adapter = object : ArrayAdapter<UserEntry>(this@DataBaseActivity, R.layout.user_item, items) {
                     @SuppressLint("ViewHolder")
                     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                         val user = getItem(position)
@@ -58,6 +62,6 @@ class DataBaseActivity : AppCompatActivity() {
                     }
                 }
             }
-        }.start()
+        }
     }
 }

@@ -5,10 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".fragment.NetworkFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Button
+        android:text="@string/openNotification"
+        android:layout_marginTop="192dp"
+        android:layout_marginEnd="@dimen/padding_item_main_fragment"
+        android:layout_marginStart="@dimen/padding_item_main_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonCreateNotification" />
 
 </FrameLayout>

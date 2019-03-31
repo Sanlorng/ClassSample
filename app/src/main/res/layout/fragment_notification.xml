@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.NotificationFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sendMessageNotification"
+        android:text="@string/sendMessage"
+        android:layout_marginTop="192dp"
+        android:layout_marginStart="@dimen/padding_item_main_fragment"
+        android:layout_marginEnd="@dimen/padding_item_main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/updateBatteryStatusNotification"
+        android:text="@string/sendBroadcast"
+        android:layout_marginTop="@dimen/padding_item_main_fragment"
+        android:layout_marginStart="@dimen/padding_item_main_fragment"
+        android:layout_marginEnd="@dimen/padding_item_main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/removeBatteryStatusNotification"
+        android:text="@string/cancelBatteryNotification"
+        android:layout_marginTop="@dimen/padding_item_main_fragment"
+        android:layout_marginStart="@dimen/padding_item_main_fragment"
+        android:layout_marginEnd="@dimen/padding_item_main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
+</LinearLayout>

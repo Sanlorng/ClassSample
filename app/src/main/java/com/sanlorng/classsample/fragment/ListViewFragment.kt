@@ -53,7 +53,6 @@ class ListViewFragment : Fragment() {
             ListShowFragment.newInstance("fruit"),
             ListShowFragment.newInstance("image")
         )
-        homeFragment.setOnClickListener { findNavController().navigateUp() }
         viewpagerListView.adapter = FragmentViewPagerAdapter(childFragmentManager)
         tabListView.setupWithViewPager(viewpagerListView)
     }
@@ -61,7 +60,8 @@ class ListViewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.listViewFragment)
-        (activity as AppCompatActivity).supportActionBar?.title = "ListView的应用"
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.list_view_usage)
+        activity?.invalidateOptionsMenu()
     }
 
     inner class FragmentViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {

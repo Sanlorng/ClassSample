@@ -38,14 +38,12 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.loginFragment)
-        (activity as AppCompatActivity).supportActionBar?.title = "登录与对话控件"
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.sign_in_and_dialog)
+        activity?.invalidateOptionsMenu()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        homeFragment.setOnClickListener {
-            findNavController().navigateUp()
-        }
         button_login_login.setOnClickListener {
             startActivity(Intent(context, LoginActivity::class.java))
         }

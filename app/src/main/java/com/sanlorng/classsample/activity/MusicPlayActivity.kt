@@ -1,5 +1,7 @@
 package com.sanlorng.classsample.activity
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Service
 import android.content.ComponentName
 import android.content.Context
@@ -11,6 +13,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.view.Menu
+import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.sanlorng.classsample.R
@@ -21,24 +24,20 @@ import com.sanlorng.classsample.service.PlayMusicService
 import com.sanlorng.kit.translucentSystemUI
 import kotlinx.android.synthetic.main.activity_music_play.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_music.*
+import java.lang.RuntimeException
 
 class MusicPlayActivity : AppCompatActivity() {
     private var musicBinder: PlayMusicService.PlayMusicBinder? = null
     private var controlTag = "playingActivity"
+    private var isDrag = false
     private val conn = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             musicBinder = service as PlayMusicService.PlayMusicBinder
             musicBinder?.apply {
-                if (isPlaying)
-                    playingMusic.apply {
-                        textSubtitlePlayActivity.text = String.format("%s - %s",artist,album)
-                        textTitlePlayActivity.text = title
-                        switchPlayIconState(isPlaying)
-                    }
                 addOnPreparedListener(controlTag, MediaPlayer.OnPreparedListener {
                     playingMusic.apply {
-                        textSubtitlePlayActivity.text = String.format("%s - %s",artist,album)
-                        textTitlePlayActivity.text = title
+                        setPlayInfo(this)
                     }
                 })
 
@@ -47,19 +46,30 @@ class MusicPlayActivity : AppCompatActivity() {
 
                 addPlayingCallBack(controlTag) { currentPosition, total ->
                     musicBinder?.playingMusic?.apply {
-                        seekBarPlayingActivity.progress = currentPosition
+                        if (isDrag.not())
+                            seekBarPlayingActivity.progress = currentPosition
                         seekBarPlayingActivity.max = total
-                        switchPlayIconState(isPlaying)
                     }
                 }
 
+                addOnPauseListener(controlTag) {
+                        setPlayInfo(it)
+                }
+
+                addOnPlayListener(controlTag) {
+                    setPlayInfo(it)
+                }
+
+                addOnResumeListener(controlTag) {
+                    setPlayInfo(it)
+                }
                 seekBarPlayingActivity.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
                     }
 
                     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
+                        isDrag = true
                     }
 
                     override fun onStopTrackingTouch(seekBar: SeekBar?) {
@@ -67,36 +77,29 @@ class MusicPlayActivity : AppCompatActivity() {
                             if (isPlaying)
                                 seekTo(seekBar?.progress ?: 0)
                         }
+                        isDrag = false
                     }
                 })
 
                 buttonNextPlayMusicActivity.setOnClickListener {
-                    musicBinder?.nextPlay()
+                    if (checkPlay())
+                        musicBinder?.nextPlay()
                 }
 
                 buttonLastMusicActivity.setOnClickListener {
-                    musicBinder?.lastPlay()
+                    if (checkPlay())
+                        musicBinder?.lastPlay()
                 }
 
                 buttonPlayMusicActivity.setOnClickListener {
                     musicBinder?.apply {
-                        if (playList.isEmpty().not()) {
-                            if (isPlaying)
+                        if (checkPlay()) {
+                            if (isPlaying) {
                                 pause()
-                            else
+                            }
+                            else {
                                 resume()
-                        }
-                        else {
-                            MusicTreeLoadImpl.getAllMusic(object : BaseListView<MusicModel> {
-                                override fun getViewContext(): Context {
-                                    return this@MusicPlayActivity
-                                }
-
-                                override fun onListLoadFinish(result: ArrayList<MusicModel>) {
-                                    playList = result
-                                    nextPlay()
-                                }
-                            })
+                            }
                         }
                     }
                 }
@@ -111,6 +114,39 @@ class MusicPlayActivity : AppCompatActivity() {
                 removeCompletionListener(controlTag)
             }
         }
+    }
+
+    private fun setPlayInfo(model: MusicModel) {
+        model.apply {
+            textSubtitlePlayActivity.text = String.format("%s - %s", artist, album)
+            textTitlePlayActivity.text = title
+            musicBinder?.apply {
+                switchPlayIconState(isPlaying)
+                seekBarPlayingActivity.max = playDuration
+                seekBarPlayingActivity.progress = playPosition
+            }
+        }
+    }
+    fun checkPlay():Boolean{
+        musicBinder?.apply {
+            return when {
+                playList.isEmpty() -> {
+                    MusicTreeLoadImpl.getAllMusic(object : BaseListView<MusicModel> {
+                        override fun getViewContext(): Context {
+                            return this@MusicPlayActivity
+                        }
+
+                        override fun onListLoadFinish(result: ArrayList<MusicModel>) {
+                            playList = result
+                            nextPlay()
+                        }
+                    })
+                    false
+                }
+                else -> true
+            }
+        }
+        return false
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,17 +176,20 @@ class MusicPlayActivity : AppCompatActivity() {
                 rippleColor = getColorStateList(R.color.white)
             }
         }
-//        if (isPlaying) {
-//            buttonPlayMusicActivity.isChecked = true
-//        }
     }
     override fun onStop() {
         super.onStop()
-        unbindService(conn)
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        musicBinder?.removeAllListeners(controlTag)
+        try {
+            unbindService(conn)
+        }catch (e: RuntimeException){
+            e.printStackTrace()
+        }
         musicBinder = null
     }
 }

@@ -18,7 +18,7 @@ class MessageActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         textView_message.text = intent.getStringExtra("message")
-        window.translucentSystemUI()
+        window.translucentSystemUI(true)
         window.navigationBarLight(false)
     }
 }

@@ -42,7 +42,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         listViewFragment.setOnClickListener(this)
         sharedPreferencesFragment.setOnClickListener(this)
         musicFragment.setOnClickListener(this)
-        toastFragment.setOnClickListener(this)
+        notificationFragment.setOnClickListener(this)
         networkFragment.setOnClickListener(this)
 
     }
@@ -54,6 +54,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.homeFragment)
-        (activity!! as AppCompatActivity).supportActionBar?.title = "首页"
+        (activity!! as AppCompatActivity).supportActionBar?.title = getString(R.string.home)
+        activity?.invalidateOptionsMenu()
     }
 }

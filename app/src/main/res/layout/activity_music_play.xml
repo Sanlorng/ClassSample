@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +15,11 @@
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_keyboard_arrow_down_black_48dp" />
-
+    <LinearLayout
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView
         android:layout_width="192dp"
         android:layout_height="192dp"
@@ -26,6 +30,7 @@
         app:cardElevation="16dp">
 
         <ImageView
+            android:contentDescription="@string/albumCover"
             android:id="@+id/imageAlbumPlayActivity"
             android:src="@drawable/drawable_gradient"
             android:layout_width="match_parent"
@@ -56,12 +61,13 @@
         android:maxLines="1"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/textPlayingFileInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
-        android:text="48kHz/4096kbps" />
+        android:text="" />
 
     <SeekBar
         android:id="@+id/seekBarPlayingActivity"
@@ -80,6 +86,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:contentDescription="@string/playPrevious"
             android:id="@+id/buttonLastMusicActivity"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -90,10 +97,10 @@
             android:theme="@style/Platform.MaterialComponents.Light"
             android:id="@+id/buttonPlayMusicActivity"
             android:layout_gravity="center"
-            android:elevation="4dp"
+            app:elevation="4dp"
             android:layout_width="64dp"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
+            android:layout_margin="16dp"
             app:rippleColor="@color/white"
             app:backgroundTint="@color/colorPrimary"
             app:iconTint="?attr/colorPrimary"
@@ -101,6 +108,7 @@
             app:icon="@drawable/ic_play_arrow_black_24dp" />
 
         <ImageButton
+            android:contentDescription="@string/playNext"
             android:id="@+id/buttonNextPlayMusicActivity"
             android:layout_gravity="end"
             android:layout_width="wrap_content"
@@ -108,4 +116,28 @@
             android:background="#00000000"
             app:srcCompat="@drawable/ic_skip_next_black_48dp" />
     </FrameLayout>
-</LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textDragBottomSheetMusicList"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:text="@string/extendPlayList"
+            android:drawableStart="@drawable/ic_keyboard_arrow_up_black_24dp"
+            android:background="?attr/selectableItemBackground"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/textDragBottomSheetMusicList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

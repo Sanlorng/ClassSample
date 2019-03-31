@@ -15,30 +15,29 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_marginTop="192dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="@dimen/padding_item_main_fragment"
+                android:layout_marginEnd="@dimen/padding_item_main_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:ems="10"
-                android:hint="输入任意内容，并点击下面的Button"
+                android:hint="@string/inputContent"
+                android:background="#00000000"
                 android:id="@+id/editText_first" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:text="点击弹出Toast显示输入的文本"
-                android:layout_margin="32dp"
+                android:text="@string/showToast"
+                android:layout_margin="@dimen/padding_item_main_fragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:id="@+id/button_first" />
 
-            <Button
-                android:text="返回首页"
-                android:layout_margin="32dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@id/homeFragment" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

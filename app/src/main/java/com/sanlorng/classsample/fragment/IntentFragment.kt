@@ -45,7 +45,6 @@ class IntentFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         button_message_intent.setOnClickListener(this)
         button_hidden_intent.setOnClickListener(this)
-        homeFragment.setOnClickListener(this)
         toolbar_intent.inflateMenu(R.menu.menu_intent)
         toolbar_intent.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -91,13 +90,13 @@ class IntentFragment : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.intentFragment)
-        (activity as AppCompatActivity).supportActionBar?.title = "Intent的应用"
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.intent_usage)
+        activity?.invalidateOptionsMenu()
     }
 
     override fun onClick(v: View?) {
         val string = editText_intent.editableText.toString()
         when {
-            v == homeFragment -> findNavController().navigateUp()
             string.isEmpty() -> Toast.makeText(context, "请输入内容", Toast.LENGTH_SHORT).show()
             else -> when (v) {
                 button_message_intent -> {

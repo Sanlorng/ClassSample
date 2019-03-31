@@ -23,17 +23,17 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monday" />
+                android:text="@string/loginUI" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tuesday" />
+                android:text="@string/loginUI" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wednesday" />
+                android:text="@string/loginUI" />
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,17 +42,5 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:src="@drawable/ic_home_black_24dp"
-        app:backgroundTint="#FAFAFA"
-        app:layout_behavior="com.sanlorng.classsample.helper.ScrollAutoHide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:clickable="true"
-        android:id="@id/homeFragment"
-        app:layout_anchorGravity="right|bottom"
-        app:layout_anchor="@+id/viewpagerListView" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,4 +7,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_item_spacing">16dp</dimen>
     <dimen name="list_item_spacing_half">8dp</dimen>
+    <dimen name="padding_item_main_fragment">32dp</dimen>
+    <dimen name="margin_top_item_main_fragment">8dp</dimen>
+    <dimen name="button_min_height">48dp</dimen>
+    <dimen name="margin_home_button">64dp</dimen>
 </resources>

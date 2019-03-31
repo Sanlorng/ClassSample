@@ -44,15 +44,13 @@ class SharedPreferencesFragment : Fragment() {
         button_data_base.setOnClickListener {
             context?.startActivity(DataBaseActivity::class.java)
         }
-        homeFragment.setOnClickListener {
-            findNavController().navigateUp()
-        }
     }
 
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.sharedPreferencesFragment)
-        (activity as AppCompatActivity).supportActionBar?.title = "数据持久化的应用"
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.data_and_share_preferences_usage)
+        activity?.invalidateOptionsMenu()
     }
 
 }

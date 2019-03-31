@@ -1,6 +1,8 @@
 package com.sanlorng.classsample.activity
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import com.google.android.material.navigation.NavigationView
 import androidx.core.view.GravityCompat
@@ -8,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -25,6 +28,7 @@ import java.lang.Exception
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var fragment: Fragment
     private lateinit var navController: NavController
+    private val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,7 +47,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         window.translucentSystemUI(true)
         window.openStatusBarShadow(false)
         window.navigationBarLight(true)
-        MusicTreeLoadImpl.scanMediaStore(this)
+        if (ContextCompat.checkSelfPermission(this,permissions[0])== PackageManager.PERMISSION_GRANTED)
+            MusicTreeLoadImpl.scanMediaStore(this)
+        else
+            requestPermissions(permissions,1)
     }
 
     override fun onBackPressed() {
@@ -55,10 +62,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            MusicTreeLoadImpl.scanMediaStore(this)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         //menuInflater.inflate(R.menu.main, menu)
-        menuInflater.inflate(R.menu.main,menu)
+        if (nav_view.checkedItem?.itemId != R.id.homeFragment)
+            menuInflater.inflate(R.menu.main,menu)
         return true
     }
 
@@ -73,11 +86,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (nav_view.checkedItem!!.itemId != R.id.homeFragment) {
-            navController.navigateUp()
-            toolbar.menu.findItem(R.id.homeFragment).isVisible = true
-        }else
-            toolbar.menu.findItem(R.id.homeFragment).isVisible = false
+//        if (nav_view.checkedItem!!.itemId != R.id.homeFragment) {
+//            navController.navigateUp()
+//            toolbar.menu.findItem(R.id.homeFragment).isVisible = true
+//        }else
+//            toolbar.menu.findItem(R.id.homeFragment).isVisible = false
+        invalidateOptionsMenu()
         drawer_layout.closeDrawer(GravityCompat.START)
         item.onNavDestinationSelected(navController)
 

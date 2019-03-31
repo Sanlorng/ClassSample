@@ -31,7 +31,7 @@
                         android:id="@id/musicFragment"
                         android:title="@string/music_player" />
                     <item
-                        android:id="@id/toastFragment"
+                        android:id="@id/notificationFragment"
                         android:title="@string/notification_broad_usage" />
                     <item
                         android:id="@id/networkFragment"

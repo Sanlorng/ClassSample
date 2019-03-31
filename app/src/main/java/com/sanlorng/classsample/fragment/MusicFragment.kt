@@ -4,6 +4,7 @@ package com.sanlorng.classsample.fragment
 import android.Manifest
 import android.app.Service
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
@@ -18,6 +19,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.fragment.findNavController
@@ -27,6 +29,8 @@ import com.sanlorng.classsample.BuildConfig
 import com.sanlorng.classsample.R
 import com.sanlorng.classsample.activity.MusicPlayActivity
 import com.sanlorng.classsample.model.*
+import com.sanlorng.classsample.mvp.base.BaseListView
+import com.sanlorng.classsample.mvp.music.MusicTreeLoadImpl
 import com.sanlorng.classsample.service.PlayMusicService
 import com.sanlorng.kit.startActivity
 import kotlinx.android.synthetic.main.fragment_music.*
@@ -54,21 +58,59 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
                 musicBinder = this
                 addPlayingCallBack(listenerTag) { currentPosition, total ->
                     musicBinder?.playingMusic?.apply {
-                        indicatorPlayingMusicFragment.progress = currentPosition
-                        indicatorPlayingMusicFragment.max = total
-                        textPlayingTitleMusicFragment.text = title
-                        textPlayingArtistMusicFragment.text = String.format("%s - %s",artist,album)
+                        indicatorPlayingMusicFragment?.apply {
+                            progress = currentPosition
+                            max = total
+                        }
                     }
                 }
                 addCompletionListener(listenerTag, MediaPlayer.OnCompletionListener {
 
                 })
                 addOnPreparedListener(listenerTag, MediaPlayer.OnPreparedListener {
+                    musicBinder?.playingMusic?.apply {
 
-
+                    }
                 })
+                toolbarMusicFragment.inflateMenu(R.menu.toolbar_play_control)
+                toolbarMusicFragment.setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.buttonPlayMusicToolbar -> {
+                            musicBinder?.apply {
+                                if (checkPlay()) {
+                                    if (isPlaying)
+                                        pause()
+                                    else
+                                        resume()
+                                }
+                                else {
 
+                                }
+                            }
+                        }
 
+                        R.id.buttonPlayListToolbar -> {
+                            musicBinder?.apply {
+                                if (playList.isNotEmpty())
+                                    MusicListDialogFragment(playList).show(childFragmentManager,listenerTag)
+                                else
+                                    Toast.makeText(context!!,"音乐列表为空",Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    true
+                }
+                addOnPauseListener(listenerTag) {
+                    setMusicInfo(it)
+                }
+
+                addOnResumeListener(listenerTag) {
+                    setMusicInfo(it)
+                }
+
+                addOnPlayListener(listenerTag) {
+                    setMusicInfo(it)
+                }
             }
         }
 
@@ -84,18 +126,56 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
         return inflater.inflate(R.layout.fragment_music, container, false)
     }
 
+    private fun setMusicInfo(model: MusicModel) {
+        model.apply {
+            textPlayingTitleMusicFragment.text = title
+            textPlayingArtistMusicFragment.text = String.format("%s - %s",artist,album)
+            musicBinder?.apply {
+                switchPlayIconState(isPlaying)
+            }
+        }
+    }
+
+    private fun switchPlayIconState(isPlaying: Boolean) {
+        toolbarMusicFragment.menu.findItem(R.id.buttonPlayMusicToolbar).apply {
+            icon = if (isPlaying.not())  context?.getDrawable(R.drawable.ic_play_arrow_black_24dp)
+                    else context?.getDrawable(R.drawable.ic_pause_black_24dp)
+        }
+    }
+    private fun checkPlay():Boolean{
+        musicBinder?.apply {
+            return when {
+                playList.isEmpty() -> {
+                    MusicTreeLoadImpl.getAllMusic(object : BaseListView<MusicModel> {
+                        override fun getViewContext(): Context {
+                            return context!!
+                        }
+
+                        override fun onListLoadFinish(result: ArrayList<MusicModel>) {
+                            playList = result
+                            nextPlay()
+                        }
+                    })
+                    false
+                }
+                else -> true
+            }
+        }
+        return false
+    }
     private fun loadLayout() {
-        listFragment = listOf(
-            MusicSortFragment.newInstance(RequestType.LIST), MusicSortFragment.newInstance(RequestType.ARTIST),
-            MusicSortFragment.newInstance(RequestType.ALBUM), MusicSortFragment.newInstance(RequestType.FOLDER)
-        )
-//        MusicControlPresenterImpl.instance.bindMiniPlayView(this)
-//        MusicControlPresenterImpl.instance.start()
-        viewPager_music.adapter = FragmentViewPagerAdapter(childFragmentManager)
-        tabLayout_music.setupWithViewPager(viewPager_music)
-        playBar.setOnClickListener {
+
+        toolbarMusicFragment.setOnClickListener {
             context?.startActivity(MusicPlayActivity::class.java)
         }
+        if (MusicTreeLoadImpl.isInit.not())
+            MusicTreeLoadImpl.scanMediaStore(context!!)
+        listFragment = listOf(
+                MusicSortFragment.newInstance(RequestType.LIST), MusicSortFragment.newInstance(RequestType.ARTIST),
+                MusicSortFragment.newInstance(RequestType.ALBUM), MusicSortFragment.newInstance(RequestType.FOLDER)
+            )
+        viewPager_music.adapter = FragmentViewPagerAdapter(childFragmentManager)
+        tabLayout_music.setupWithViewPager(viewPager_music)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -105,9 +185,9 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
         }catch (e: Exception) {
             e.printStackTrace()
         }
-        homeFragment.setOnClickListener {
-            findNavController().navigateUp()
-        }
+//        homeFragment.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
         if (ContextCompat.checkSelfPermission(context!!, permissions[1]) == PackageManager.PERMISSION_GRANTED)
             loadLayout()
         else
@@ -118,8 +198,10 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
     override fun onResume() {
         super.onResume()
         activity!!.findViewById<NavigationView>(R.id.nav_view).setCheckedItem(R.id.musicFragment)
-        (activity as AppCompatActivity).supportActionBar?.title = "音乐播放器"
-        context?.bindService(Intent(context!!,PlayMusicService::class.java),conn,Service.BIND_AUTO_CREATE)
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.music_player)
+        activity?.invalidateOptionsMenu()
+
+//        context?.bindService(Intent(context!!,PlayMusicService::class.java),conn,Service.BIND_AUTO_CREATE)
     }
 
     inner class FragmentViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
@@ -156,22 +238,13 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
             list[position].run {
                 when {
                     playingPath !=path -> play(path)
-                    isPlaying -> pause()
                     playingPath == path && isPlaying.not() -> resume()
                 }
             }
         }
-//        musicBinder.playList = ArrayList(list)
-//        when {
-//            musicBinder.playingPath != list[position].path -> musicBinder.play(list[position].path)
-//            musicBinder.isPlaying -> musicBinder.pause()
-//            else -> musicBinder.resume()
-//        }
     }
     override fun onStop() {
         super.onStop()
-        context?.unbindService(conn)
-        musicBinder?.removeAllListeners(listenerTag)
         if (BuildConfig.DEBUG)
             Log.e("onStop","true")
     }
@@ -182,10 +255,10 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
         super.onPause()
     }
     override fun onDestroy() {
+        context?.unbindService(conn)
+        musicBinder?.removeAllListeners(listenerTag)
         if (BuildConfig.DEBUG)
             Log.e("onDestroy","true")
         super.onDestroy()
-//        MusicControlPresenterImpl.instance.cancelTask()
-//        MusicControlPresenterImpl.instance.detachView()
     }
 }

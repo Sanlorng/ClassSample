@@ -2,12 +2,16 @@ package com.sanlorng.classsample.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.sanlorng.classsample.R
 import com.sanlorng.kit.navigationBarLight
 import com.sanlorng.kit.translucentSystemUI
 import kotlinx.android.synthetic.main.activity_dialog_process.*
+import kotlinx.coroutines.*
+
+
 
 class DialogProcessActivity : AppCompatActivity() {
     private val sampleArray = arrayOf(
@@ -26,11 +30,11 @@ class DialogProcessActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dialog_process)
-        window.translucentSystemUI()
+        window.translucentSystemUI(true)
         window.navigationBarLight(true)
-        toolbar_dialog_process.setNavigationOnClickListener { finish() }
         setSupportActionBar(toolbar_dialog_process)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar_dialog_process.setNavigationOnClickListener { finish() }
         button_ok_dialog.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
                 .setTitle("简单对话框")
@@ -40,8 +44,7 @@ class DialogProcessActivity : AppCompatActivity() {
                 .setCancelable(true)
                 .create()
             dialog.show()
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getColor(R.color.colorAccent))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getColor(R.color.colorAccent))
+            dialog.textButtonStyle()
         }
         button_single_dialog.setOnClickListener {
             var select = 0
@@ -59,8 +62,7 @@ class DialogProcessActivity : AppCompatActivity() {
                 .setCancelable(true)
                 .create()
             dialog.show()
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getColor(R.color.colorAccent))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getColor(R.color.colorAccent))
+            dialog.textButtonStyle()
         }
         button_multi_dialog.setOnClickListener {
             val booleanArray = BooleanArray(sampleArray.size)
@@ -80,20 +82,32 @@ class DialogProcessActivity : AppCompatActivity() {
                 .setCancelable(true)
                 .create()
             dialog.show()
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getColor(R.color.colorAccent))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getColor(R.color.colorAccent))
+            dialog.textButtonStyle()
         }
         button_login_dialog.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
                 .setView(R.layout.dialog_progress)
                 .create()
             dialog.show()
-            Thread {
-                Thread.sleep(3000)
-                runOnUiThread {
+            GlobalScope.launch {
+                delay(3000)
+                withContext(Dispatchers.Main) {
                     dialog.dismiss()
                 }
-            }.start()
+            }
+        }
+    }
+}
+fun AlertDialog.textButtonStyle() {
+    val color = context.getColor(R.color.colorAccent)
+    val typedValue = TypedValue()
+    context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue , true)
+    val attribute = intArrayOf(android.R.attr.selectableItemBackground)
+    val typedArray = context.theme.obtainStyledAttributes(typedValue.resourceId, attribute)
+    arrayOf(AlertDialog.BUTTON_NEGATIVE,AlertDialog.BUTTON_NEUTRAL,AlertDialog.BUTTON_POSITIVE).forEach {
+        getButton(it)?.apply {
+            setTextColor(color)
+            background = typedArray.getDrawable(0)
         }
     }
 }

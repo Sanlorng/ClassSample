@@ -12,13 +12,16 @@
     android:paddingBottom="@dimen/list_item_spacing_half" >
 
     <ImageView
+        android:contentDescription="@string/albumCover"
         android:id="@+id/imageMusicItem"
-        android:maxHeight="64dp"
-        android:maxWidth="64dp"
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:maxWidth="48dp"
+        android:maxHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/backgrounds/scenic[0]" />
@@ -28,11 +31,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
+        android:textSize="16sp"
         android:textColor="#000000"
-        android:textSize="18sp"
         android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageMusicItem"
@@ -42,12 +43,14 @@
         android:id="@+id/textMusicAlbum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:maxLines="1"
-        android:text="TextView"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageMusicItem"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageMusicItem" />
+        app:layout_constraintStart_toEndOf="@+id/imageMusicItem"
+        app:layout_constraintTop_toBottomOf="@+id/textMusicTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>
