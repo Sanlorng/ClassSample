@@ -71,7 +71,7 @@ android {
     }
 }
 final String appcompact_version = "1.1.0-alpha03"
-final String material_version = "1.1.0-alpha04"
+final String material_version = "1.1.0-alpha05"
 final String core_ktx_version = "1.1.0-alpha05"
 final String navigation_ktx_version = "1.0.0"
 dependencies {

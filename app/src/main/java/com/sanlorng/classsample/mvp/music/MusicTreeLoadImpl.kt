@@ -128,6 +128,7 @@ class MusicTreeLoadImpl {
                 MediaStore.Audio.Media.DEFAULT_SORT_ORDER
             )?.apply {
                 while (moveToNext()) {
+                    if (getLong(getColumnIndex(MediaStore.Audio.Media.DURATION)) > 30000)
                     musicList.add(MusicModel(
                         id = getLong(getColumnIndex(BaseColumns._ID)),
                         title = getString(getColumnIndex(MediaStore.Audio.AudioColumns.TITLE)),

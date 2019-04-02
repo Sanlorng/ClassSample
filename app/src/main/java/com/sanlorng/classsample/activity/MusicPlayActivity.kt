@@ -1,19 +1,15 @@
 package com.sanlorng.classsample.activity
 
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.app.Service
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.media.MediaPlayer
-import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.view.Menu
-import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.sanlorng.classsample.R
@@ -24,14 +20,16 @@ import com.sanlorng.classsample.mvp.music.MusicTreeLoadImpl
 import com.sanlorng.classsample.service.PlayMusicService
 import com.sanlorng.kit.translucentSystemUI
 import kotlinx.android.synthetic.main.activity_music_play.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_music.*
 import java.lang.RuntimeException
 
 class MusicPlayActivity : AppCompatActivity() {
     private var musicBinder: PlayMusicService.PlayMusicBinder? = null
     private var controlTag = "playingActivity"
     private var isDrag = false
+    private val strFormat1 = "%02d : %02d"
+    private val strFormat2 = "%03d : %02d"
+    private val nextPlayTypes = arrayOf(PlayMusicService.NEXT_PLAY_RANDOM,PlayMusicService.NEXT_PLAY_CIRCLE,PlayMusicService.NEXT_PLAY_SINGLE)
+    private var nextPlayTypeIndex = 0
     private val conn = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             musicBinder = service as PlayMusicService.PlayMusicBinder
@@ -45,25 +43,26 @@ class MusicPlayActivity : AppCompatActivity() {
                 addCompletionListener(controlTag, MediaPlayer.OnCompletionListener {
                 })
 
-                addPlayingCallBack(controlTag) { currentPosition, total ->
-                    musicBinder?.playingMusic?.apply {
-                        if (isDrag.not())
-                            seekBarPlayingActivity.progress = currentPosition
-                        seekBarPlayingActivity.max = total
-                    }
+                addPlayingCallBack(controlTag) { currentPosition, _ ->
+                    onPlaying(currentPosition)
                 }
 
                 addOnPauseListener(controlTag) {
                         setPlayInfo(it)
+                    val temp = it.duration /1000
+                    textTotalTime.text = String.format(if (temp<6000) strFormat1 else strFormat2,temp/60,temp%60)
                 }
 
                 addOnPlayListener(controlTag) {
                     setPlayInfo(it)
+                    val temp = it.duration /1000
+                    textTotalTime.text = String.format(if (temp<6000) strFormat1 else strFormat2,temp/60,temp%60)
                 }
 
                 addOnResumeListener(controlTag) {
                     setPlayInfo(it)
                 }
+                supportStartPostponedEnterTransition()
                 seekBarPlayingActivity.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
@@ -75,7 +74,6 @@ class MusicPlayActivity : AppCompatActivity() {
 
                     override fun onStopTrackingTouch(seekBar: SeekBar?) {
                         musicBinder?.apply {
-                            if (isPlaying)
                                 seekTo(seekBar?.progress ?: 0)
                         }
                         isDrag = false
@@ -104,6 +102,17 @@ class MusicPlayActivity : AppCompatActivity() {
                         }
                     }
                 }
+                nextPlayTypeIndex = nextPlayTypes.find {
+                    it == nextPlayType
+                }?:PlayMusicService.NEXT_PLAY_RANDOM
+                switchNextPlayIcon()
+                nextPlayTypeMusicActivity.setOnClickListener {
+                    musicBinder?.apply {
+                        nextPlayTypeIndex = (nextPlayTypeIndex+1)%nextPlayTypes.size
+                        nextPlayType = nextPlayTypes[nextPlayTypeIndex]
+                        switchNextPlayIcon()
+                    }
+                }
             }
         }
 
@@ -117,14 +126,40 @@ class MusicPlayActivity : AppCompatActivity() {
         }
     }
 
+    private fun switchNextPlayIcon() {
+        nextPlayTypeMusicActivity.setImageResource(
+            when(musicBinder?.nextPlayType) {
+                PlayMusicService.NEXT_PLAY_RANDOM -> R.drawable.ic_shuffle_black_24dp
+                PlayMusicService.NEXT_PLAY_CIRCLE -> R.drawable.ic_repeat_black_24dp
+                else -> R.drawable.ic_repeat_one_black_24dp
+            })
+    }
+
+    private fun onPlaying(current: Int) {
+        musicBinder?.playingMusic?.apply {
+            if (isDrag.not()) {
+                seekBarPlayingActivity.progress = current
+            }
+            val temp = current /1000
+            textPlayTime.text = String.format(if (temp<6000) strFormat1 else strFormat2,temp/60,temp%60)
+        }
+    }
     private fun setPlayInfo(model: MusicModel) {
         model.apply {
             textSubtitlePlayActivity.text = String.format("%s - %s", artist, album)
             textTitlePlayActivity.text = title
+            if (albumCover != null)
+                imageAlbumPlayActivity.setImageBitmap(albumCover)
+            else
+                imageAlbumPlayActivity.setImageResource(R.drawable.ic_album_black_24dp)
             musicBinder?.apply {
                 switchPlayIconState(isPlaying)
                 seekBarPlayingActivity.max = playDuration
                 seekBarPlayingActivity.progress = playPosition
+                val total = playDuration /1000
+                val current = playPosition / 1000
+                textTotalTime.text = String.format(if (total<6000) strFormat1 else strFormat2,total/60,total%60)
+                textPlayTime.text = String.format(if (current<6000) strFormat1 else strFormat2,current/60,current%60)
             }
         }
     }
@@ -152,7 +187,8 @@ class MusicPlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music_play)
-        toolbar_music_play.setNavigationOnClickListener { finish() }
+        postponeEnterTransition()
+        toolbar_music_play.setNavigationOnClickListener { supportFinishAfterTransition() }
         toolbar_music_play.inflateMenu(R.menu.toolbar_music_play)
         window.translucentSystemUI(true)
         bindService(Intent(this,PlayMusicService::class.java),conn, Service.BIND_AUTO_CREATE)
@@ -182,12 +218,8 @@ class MusicPlayActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         musicBinder?.apply {
-            addPlayingCallBack(controlTag) { currentPosition, total ->
-                playingMusic.apply {
-                    if (isDrag.not())
-                        seekBarPlayingActivity.progress = currentPosition
-                    seekBarPlayingActivity.max = total
-                }
+            addPlayingCallBack(controlTag) { currentPosition, _ ->
+                onPlaying(currentPosition)
             }
         }
     }
@@ -201,7 +233,6 @@ class MusicPlayActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        App.onMusicActivity = false
         musicBinder?.removeAllListeners(controlTag)
         try {
             unbindService(conn)
@@ -209,5 +240,9 @@ class MusicPlayActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         musicBinder = null
+    }
+
+    override fun onBackPressed() {
+        supportFinishAfterTransition()
     }
 }

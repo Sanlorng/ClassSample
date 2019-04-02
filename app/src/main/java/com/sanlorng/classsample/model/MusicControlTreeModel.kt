@@ -1,5 +1,7 @@
 package com.sanlorng.classsample.model
 
+import android.graphics.Bitmap
+
 class MusicControlTreeModel {
 //    var currentList: ArrayList<MusicModel> = ArrayList()
 //    var currentMusic: MusicModel? = null
@@ -27,7 +29,9 @@ data class MusicModel(val id: Long,
                      val albumId: Long,
                      val duration: Long,
                      val fileName: String,
-                     val fileSize: Long):BaseMusicModel(fileName)
+                     val fileSize: Long):BaseMusicModel(fileName) {
+    var albumCover:Bitmap? = null
+}
 
 data class MusicRequest(val type:String, val key: String)
 object RequestType {

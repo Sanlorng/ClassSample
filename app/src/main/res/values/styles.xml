@@ -11,6 +11,7 @@
         <item name="buttonStyle">@style/ButtonStyle</item>
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="materialButtonStyle">@style/ButtonStyle</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -1,6 +1,7 @@
 package com.sanlorng.classsample.fragment
 
 
+import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -62,7 +63,8 @@ class NotificationFragment : Fragment() {
                 addAction(ACTION_APP_MESSAGE)
             })
             notificationManager = getSystemService(NotificationManager::class.java)
-            createNotificationChannel()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                createNotificationChannel()
         }
         removeBatteryStatusNotification.setOnClickListener {
             notificationManager.cancel(BATTERY_CHANNEL_INT)
@@ -88,6 +90,7 @@ class NotificationFragment : Fragment() {
         context?.unregisterReceiver(appBroadcastReceiver)
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.run {
@@ -148,6 +151,8 @@ class NotificationFragment : Fragment() {
         const val MESSAGE_CHANNEL_INT = 1
         const val APP_CHANNEL = "app"
         const val APP_CHANNEL_INT = 2
+        const val MUSIC_CHANNEL = "music"
+        const val MUSIC_CHANNEL_INT = 3
     }
     inner class BatteryReceiver: BroadcastReceiver() {
         private var status = BatteryManager.BATTERY_STATUS_UNKNOWN

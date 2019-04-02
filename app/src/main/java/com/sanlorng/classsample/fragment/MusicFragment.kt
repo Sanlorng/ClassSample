@@ -18,8 +18,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.util.Pair
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.fragment.findNavController
@@ -34,6 +36,7 @@ import com.sanlorng.classsample.mvp.base.BaseListView
 import com.sanlorng.classsample.mvp.music.MusicTreeLoadImpl
 import com.sanlorng.classsample.service.PlayMusicService
 import com.sanlorng.kit.startActivity
+import kotlinx.android.synthetic.main.activity_music_play.*
 import kotlinx.android.synthetic.main.fragment_music.*
 import kotlinx.android.synthetic.main.fragment_music.view.*
 import java.lang.Exception
@@ -70,7 +73,10 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
                 })
                 addOnPreparedListener(listenerTag, MediaPlayer.OnPreparedListener {
                     musicBinder?.playingMusic?.apply {
-
+                        if (albumCover != null)
+                            imagePlayingAlbumMusicFragment.setImageBitmap(albumCover)
+                        else
+                            imagePlayingAlbumMusicFragment.setImageResource(R.drawable.ic_album_black_24dp)
                     }
                 })
                 toolbarMusicFragment.inflateMenu(R.menu.toolbar_play_control)
@@ -131,6 +137,10 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
         model.apply {
             textPlayingTitleMusicFragment.text = title
             textPlayingArtistMusicFragment.text = String.format("%s - %s",artist,album)
+            if (albumCover != null)
+                imagePlayingAlbumMusicFragment.setImageBitmap(albumCover)
+            else
+                imagePlayingAlbumMusicFragment.setImageResource(R.drawable.ic_album_black_24dp)
             musicBinder?.apply {
                 switchPlayIconState(isPlaying)
             }
@@ -167,8 +177,16 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
     private fun loadLayout() {
 
         toolbarMusicFragment.setOnClickListener {
-            App.onMusicActivity = true
-            context?.startActivity(MusicPlayActivity::class.java)
+            context?.apply {
+                val intent = Intent(this,MusicPlayActivity::class.java)
+                val option = ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(activity!!, Pair(imagePlayingAlbumMusicFragment,"imageAlbum"),
+                        Pair(textPlayingTitleMusicFragment,"musicTitle"),
+                        Pair(textPlayingArtistMusicFragment, "musicSubTitle"),
+                        Pair(indicatorPlayingMusicFragment,"musicSeekBar")
+                    )
+                startActivity(intent,option.toBundle())
+            }
         }
         if (MusicTreeLoadImpl.isInit.not())
             MusicTreeLoadImpl.scanMediaStore(context!!)
@@ -183,7 +201,11 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         try {
-            context?.startService(Intent(context!!, PlayMusicService::class.java))
+            activity?.apply {
+                val intent = Intent(this, PlayMusicService::class.java)
+                ContextCompat.startForegroundService(this, intent)
+                startService(intent)
+            }
         }catch (e: Exception) {
             e.printStackTrace()
         }

@@ -69,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/white"
+            android:transitionName="musicSeekBar"
             android:id="@+id/indicatorPlayingMusicFragment"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,12 +87,13 @@
             <ImageView
                 android:contentDescription="@string/albumCover"
                 android:id="@+id/imagePlayingAlbumMusicFragment"
+                android:transitionName="imageAlbum"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/drawable_gradient"
+                android:src="@drawable/ic_album_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -103,6 +105,7 @@
                 android:layout_marginStart="8dp"
                 android:textColor="#000000"
                 android:textSize="12sp"
+                android:transitionName="musicTitle"
                 app:layout_constraintStart_toEndOf="@+id/imagePlayingAlbumMusicFragment"
                 app:layout_constraintTop_toTopOf="@+id/imagePlayingAlbumMusicFragment" />
             <TextView
@@ -112,6 +115,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textPlayingTitleMusicFragment"
                 app:layout_constraintTop_toBottomOf="@+id/textPlayingTitleMusicFragment"
                 android:textSize="12sp"
+                android:transitionName="musicSubTitle"
                 android:maxLines="1"
                 android:layout_marginTop="4dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
