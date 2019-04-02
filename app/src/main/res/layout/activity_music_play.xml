@@ -26,6 +26,7 @@
         android:layout_gravity="center_vertical|center_horizontal"
         android:layout_marginTop="92dp"
         android:transitionName="imageAlbum"
+        android:id="@+id/cardAlbumPlayActivity"
         app:cardCornerRadius="8dp"
         app:cardElevation="16dp">
 
@@ -72,6 +73,7 @@
         android:text="" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutPlaySeekBarMusicActivity"
             android:layout_margin="16dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -109,10 +111,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
+        android:id="@+id/layoutPlayControlMusicActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
         android:orientation="horizontal">
 

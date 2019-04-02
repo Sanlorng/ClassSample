@@ -8,12 +8,16 @@ import android.content.ServiceConnection
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
+import android.view.View
+import android.view.WindowManager
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.sanlorng.classsample.R
 import com.sanlorng.classsample.helper.App
+import com.sanlorng.classsample.helper.adjustMargin
 import com.sanlorng.classsample.model.MusicModel
 import com.sanlorng.classsample.mvp.base.BaseListView
 import com.sanlorng.classsample.mvp.music.MusicTreeLoadImpl
@@ -126,6 +130,22 @@ class MusicPlayActivity : AppCompatActivity() {
         }
     }
 
+    private fun adjustViewMargin() {
+        DisplayMetrics().apply {
+            getSystemService(WindowManager::class.java).defaultDisplay.getRealMetrics(this)
+            val percent:Float = widthPixels*420f/1080f/densityDpi
+            toolbar_music_play.adjustMargin(percent)
+            cardAlbumPlayActivity.adjustMargin(percent)
+            textTitlePlayActivity.adjustMargin(percent)
+            textSubtitlePlayActivity.adjustMargin(percent)
+            textPlayingFileInfo.adjustMargin(percent)
+            layoutPlayControlMusicActivity.adjustMargin(percent)
+            seekBarPlayingActivity.adjustMargin(percent)
+            layoutPlaySeekBarMusicActivity.adjustMargin(percent)
+            buttonPlayMusicActivity.adjustMargin(percent)
+        }
+    }
+
     private fun switchNextPlayIcon() {
         nextPlayTypeMusicActivity.setImageResource(
             when(musicBinder?.nextPlayType) {
@@ -191,6 +211,7 @@ class MusicPlayActivity : AppCompatActivity() {
         toolbar_music_play.setNavigationOnClickListener { supportFinishAfterTransition() }
         toolbar_music_play.inflateMenu(R.menu.toolbar_music_play)
         window.translucentSystemUI(true)
+        adjustViewMargin()
         bindService(Intent(this,PlayMusicService::class.java),conn, Service.BIND_AUTO_CREATE)
     }
 
@@ -245,4 +266,5 @@ class MusicPlayActivity : AppCompatActivity() {
     override fun onBackPressed() {
         supportFinishAfterTransition()
     }
+
 }
