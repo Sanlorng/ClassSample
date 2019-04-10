@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -47,6 +48,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         window.translucentSystemUI(true)
         window.openStatusBarShadow(false)
         window.navigationBarLight(true)
+        toolbar.measure(View.MeasureSpec.UNSPECIFIED,View.MeasureSpec.UNSPECIFIED)
+        toolbar.layoutParams = toolbar.layoutParams.apply {
+            height = toolbar.measuredHeight + this@MainActivity.let {
+                it.resources.getDimensionPixelOffset(it.resources.getIdentifier("status_bar_height","dimen","android"))
+            }
+        }
         if (ContextCompat.checkSelfPermission(this,permissions[0])== PackageManager.PERMISSION_GRANTED)
             MusicTreeLoadImpl.scanMediaStore(this)
         else

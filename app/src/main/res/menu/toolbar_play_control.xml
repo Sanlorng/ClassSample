@@ -2,5 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:title="@string/play" android:id="@+id/buttonPlayMusicToolbar" android:icon="@drawable/ic_play_arrow_black_24dp" app:showAsAction="always"/>
-    <item android:title="@string/playList" android:id="@+id/buttonPlayListToolbar"  android:icon="@drawable/ic_playlist_play_black_24dp" app:showAsAction="ifRoom"/>
+    <item android:title="@string/playList" android:id="@+id/buttonPlayListToolbar"  android:icon="@drawable/ic_playlist_play_black_24dp" app:showAsAction="always"/>
+    <item android:title="@string/nextPlayType" android:id="@+id/nextPlayTypeToolbar" android:visible="false" android:icon="@drawable/ic_shuffle_black_24dp" app:showAsAction="always"/>
 </menu>

@@ -20,25 +20,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.util.Pair
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 import com.sanlorng.classsample.BuildConfig
 
 import com.sanlorng.classsample.R
 import com.sanlorng.classsample.activity.MusicPlayActivity
-import com.sanlorng.classsample.helper.App
 import com.sanlorng.classsample.model.*
 import com.sanlorng.classsample.mvp.base.BaseListView
 import com.sanlorng.classsample.mvp.music.MusicTreeLoadImpl
 import com.sanlorng.classsample.service.PlayMusicService
-import com.sanlorng.kit.startActivity
-import kotlinx.android.synthetic.main.activity_music_play.*
 import kotlinx.android.synthetic.main.fragment_music.*
-import kotlinx.android.synthetic.main.fragment_music.view.*
+import kotlinx.android.synthetic.main.layout_music_play_mini_bar.*
 import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
@@ -62,7 +57,7 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
                 musicBinder = this
                 addPlayingCallBack(listenerTag) { currentPosition, total ->
                     musicBinder?.playingMusic?.apply {
-                        indicatorPlayingMusicFragment?.apply {
+                        indicatorMusicMiniBar?.apply {
                             progress = currentPosition
                             max = total
                         }
@@ -74,13 +69,13 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
                 addOnPreparedListener(listenerTag, MediaPlayer.OnPreparedListener {
                     musicBinder?.playingMusic?.apply {
                         if (albumCover != null)
-                            imagePlayingAlbumMusicFragment.setImageBitmap(albumCover)
+                            albumMusicMiniBar.setImageBitmap(albumCover)
                         else
-                            imagePlayingAlbumMusicFragment.setImageResource(R.drawable.ic_album_black_24dp)
+                            albumMusicMiniBar.setImageResource(R.drawable.ic_album_black_24dp)
                     }
                 })
-                toolbarMusicFragment.inflateMenu(R.menu.toolbar_play_control)
-                toolbarMusicFragment.setOnMenuItemClickListener {
+                toolbarMusicMiniBar.inflateMenu(R.menu.toolbar_play_control)
+                toolbarMusicMiniBar.setOnMenuItemClickListener {
                     when(it.itemId) {
                         R.id.buttonPlayMusicToolbar -> {
                             musicBinder?.apply {
@@ -135,12 +130,12 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
 
     private fun setMusicInfo(model: MusicModel) {
         model.apply {
-            textPlayingTitleMusicFragment.text = title
-            textPlayingArtistMusicFragment.text = String.format("%s - %s",artist,album)
+            titleMusicMiniBar.text = title
+            subTitleMusicMiniBar.text = String.format("%s - %s",artist,album)
             if (albumCover != null)
-                imagePlayingAlbumMusicFragment.setImageBitmap(albumCover)
+                albumMusicMiniBar.setImageBitmap(albumCover)
             else
-                imagePlayingAlbumMusicFragment.setImageResource(R.drawable.ic_album_black_24dp)
+                albumMusicMiniBar.setImageResource(R.drawable.ic_album_black_24dp)
             musicBinder?.apply {
                 switchPlayIconState(isPlaying)
             }
@@ -148,7 +143,7 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
     }
 
     private fun switchPlayIconState(isPlaying: Boolean) {
-        toolbarMusicFragment.menu.findItem(R.id.buttonPlayMusicToolbar).apply {
+        toolbarMusicMiniBar.menu.findItem(R.id.buttonPlayMusicToolbar).apply {
             icon = if (isPlaying.not())  context?.getDrawable(R.drawable.ic_play_arrow_black_24dp)
                     else context?.getDrawable(R.drawable.ic_pause_black_24dp)
         }
@@ -176,14 +171,14 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
     }
     private fun loadLayout() {
 
-        toolbarMusicFragment.setOnClickListener {
+        toolbarMusicMiniBar.setOnClickListener {
             context?.apply {
                 val intent = Intent(this,MusicPlayActivity::class.java)
                 val option = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(activity!!, Pair(imagePlayingAlbumMusicFragment,"imageAlbum"),
-                        Pair(textPlayingTitleMusicFragment,"musicTitle"),
-                        Pair(textPlayingArtistMusicFragment, "musicSubTitle"),
-                        Pair(indicatorPlayingMusicFragment,"musicSeekBar")
+                    .makeSceneTransitionAnimation(activity!!, Pair(albumMusicMiniBar,"imageAlbum"),
+                        Pair(titleMusicMiniBar,"musicTitle"),
+                        Pair(subTitleMusicMiniBar, "musicSubTitle"),
+                        Pair(indicatorMusicMiniBar,"musicSeekBar")
                     )
                 startActivity(intent,option.toBundle())
             }
@@ -227,7 +222,7 @@ class MusicFragment : Fragment(),MusicListDialogFragment.Listener {
         musicBinder?.apply {
             addPlayingCallBack(listenerTag) { currentPosition, total ->
                 playingMusic.apply {
-                    indicatorPlayingMusicFragment?.apply {
+                    indicatorMusicMiniBar?.apply {
                         progress = currentPosition
                         max = total
                     }

@@ -1,5 +1,6 @@
 package com.sanlorng.classsample.activity
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.ComponentName
 import android.content.Context
@@ -10,20 +11,32 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Menu
-import android.view.View
-import android.view.WindowManager
+import android.util.TypedValue
+import android.view.*
+import android.widget.RelativeLayout
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.card.MaterialCardView
+import com.sanlorng.classsample.BuildConfig
 import com.sanlorng.classsample.R
+import com.sanlorng.classsample.fragment.MusicListDialogFragment
 import com.sanlorng.classsample.helper.App
 import com.sanlorng.classsample.helper.adjustMargin
+import com.sanlorng.classsample.helper.marginTopStatusBarHeight
+import com.sanlorng.classsample.helper.paddingTopStatusBarHeight
 import com.sanlorng.classsample.model.MusicModel
 import com.sanlorng.classsample.mvp.base.BaseListView
 import com.sanlorng.classsample.mvp.music.MusicTreeLoadImpl
 import com.sanlorng.classsample.service.PlayMusicService
 import com.sanlorng.kit.translucentSystemUI
 import kotlinx.android.synthetic.main.activity_music_play.*
+import kotlinx.android.synthetic.main.fragment_item_list_dialog_item.*
+import kotlinx.android.synthetic.main.fragment_item_list_dialog_item.view.*
+import kotlinx.android.synthetic.main.layout_music_play_mini_bar.*
 import java.lang.RuntimeException
 
 class MusicPlayActivity : AppCompatActivity() {
@@ -34,6 +47,7 @@ class MusicPlayActivity : AppCompatActivity() {
     private val strFormat2 = "%03d : %02d"
     private val nextPlayTypes = arrayOf(PlayMusicService.NEXT_PLAY_RANDOM,PlayMusicService.NEXT_PLAY_CIRCLE,PlayMusicService.NEXT_PLAY_SINGLE)
     private var nextPlayTypeIndex = 0
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<MaterialCardView>
     private val conn = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             musicBinder = service as PlayMusicService.PlayMusicBinder
@@ -53,14 +67,10 @@ class MusicPlayActivity : AppCompatActivity() {
 
                 addOnPauseListener(controlTag) {
                         setPlayInfo(it)
-                    val temp = it.duration /1000
-                    textTotalTime.text = String.format(if (temp<6000) strFormat1 else strFormat2,temp/60,temp%60)
                 }
 
                 addOnPlayListener(controlTag) {
                     setPlayInfo(it)
-                    val temp = it.duration /1000
-                    textTotalTime.text = String.format(if (temp<6000) strFormat1 else strFormat2,temp/60,temp%60)
                 }
 
                 addOnResumeListener(controlTag) {
@@ -117,6 +127,8 @@ class MusicPlayActivity : AppCompatActivity() {
                         switchNextPlayIcon()
                     }
                 }
+                listDragBottomSheetMusicList.layoutManager = LinearLayoutManager(this@MusicPlayActivity)
+                listDragBottomSheetMusicList.adapter = ItemAdapter(playList)
             }
         }
 
@@ -143,6 +155,8 @@ class MusicPlayActivity : AppCompatActivity() {
             seekBarPlayingActivity.adjustMargin(percent)
             layoutPlaySeekBarMusicActivity.adjustMargin(percent)
             buttonPlayMusicActivity.adjustMargin(percent)
+            textDragBottomSheetMusicList.paddingTopStatusBarHeight()
+            toolbarMusicMiniBar.paddingTopStatusBarHeight()
         }
     }
 
@@ -153,6 +167,7 @@ class MusicPlayActivity : AppCompatActivity() {
                 PlayMusicService.NEXT_PLAY_CIRCLE -> R.drawable.ic_repeat_black_24dp
                 else -> R.drawable.ic_repeat_one_black_24dp
             })
+        toolbarMusicMiniBar.menu.findItem(R.id.nextPlayTypeToolbar).icon = nextPlayTypeMusicActivity.drawable
     }
 
     private fun onPlaying(current: Int) {
@@ -168,10 +183,13 @@ class MusicPlayActivity : AppCompatActivity() {
         model.apply {
             textSubtitlePlayActivity.text = String.format("%s - %s", artist, album)
             textTitlePlayActivity.text = title
+            titleMusicMiniBar.text = title
+            subTitleMusicMiniBar.text = textSubtitlePlayActivity.text
             if (albumCover != null)
                 imageAlbumPlayActivity.setImageBitmap(albumCover)
             else
                 imageAlbumPlayActivity.setImageResource(R.drawable.ic_album_black_24dp)
+            albumMusicMiniBar.setImageDrawable(imageAlbumPlayActivity.drawable)
             musicBinder?.apply {
                 switchPlayIconState(isPlaying)
                 seekBarPlayingActivity.max = playDuration
@@ -180,6 +198,10 @@ class MusicPlayActivity : AppCompatActivity() {
                 val current = playPosition / 1000
                 textTotalTime.text = String.format(if (total<6000) strFormat1 else strFormat2,total/60,total%60)
                 textPlayTime.text = String.format(if (current<6000) strFormat1 else strFormat2,current/60,current%60)
+                if (listDragBottomSheetMusicList.layoutManager == null) {
+                    listDragBottomSheetMusicList.layoutManager = LinearLayoutManager(this@MusicPlayActivity)
+                    listDragBottomSheetMusicList.adapter = ItemAdapter(playList)
+                }
             }
         }
     }
@@ -207,11 +229,84 @@ class MusicPlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music_play)
+        titleMusicMiniBar.transitionName = ""
+        subTitleMusicMiniBar.transitionName = ""
+        albumMusicMiniBar.transitionName = ""
+        indicatorMusicMiniBar.transitionName = ""
+        indicatorMusicMiniBar.isVisible = false
+        toolbarMusicMiniBar.inflateMenu(R.menu.toolbar_play_control)
+        toolbarMusicMiniBar.menu.findItem(R.id.buttonPlayListToolbar).isVisible = false
+        toolbarMusicMiniBar.menu.findItem(R.id.nextPlayTypeToolbar).isVisible = true
+        layoutMusicMiniBar.alpha = 0f
+        layoutMusicMiniBar.isVisible = true
+        toolbarMusicMiniBar.setOnMenuItemClickListener {
+            musicBinder?.apply {
+
+                when (it.itemId) {
+                    R.id.buttonPlayMusicToolbar -> if (isPlaying) pause() else resume()
+                    R.id.nextPlayTypeToolbar -> {
+                        nextPlayTypeIndex = (nextPlayTypeIndex+1)%nextPlayTypes.size
+                        nextPlayType = nextPlayTypes[nextPlayTypeIndex]
+                        switchNextPlayIcon()
+                    }
+                }
+            }
+            true
+        }
+        bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheetMusicList).apply {
+            setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    Log.e("offset",slideOffset.toString())
+                    layoutMusicMiniBar.alpha = slideOffset
+                    textDragBottomSheetMusicList.alpha = 1 - slideOffset
+                }
+
+
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when(newState) {
+                        BottomSheetBehavior.STATE_EXPANDED -> {
+//                            layoutMusicMiniBar.isVisible = true
+//                            textDragBottomSheetMusicList.isVisible = false
+//                            (listDragBottomSheetMusicList.layoutParams as RelativeLayout.LayoutParams).apply {
+//                                this.addRule(RelativeLayout.BELOW,R.id.layoutMusicMiniBar)
+//                                listDragBottomSheetMusicList.layoutParams = this
+//                            }
+                        }
+                        BottomSheetBehavior.STATE_COLLAPSED -> {
+//                            layoutMusicMiniBar.isVisible = false
+//                            textDragBottomSheetMusicList.isVisible = true
+//                            (listDragBottomSheetMusicList.layoutParams as RelativeLayout.LayoutParams).apply {
+//                                this.addRule(RelativeLayout.BELOW,R.id.textDragBottomSheetMusicList)
+//                                listDragBottomSheetMusicList.layoutParams = this
+//                            }
+                        }
+
+                        BottomSheetBehavior.STATE_DRAGGING -> {
+//                            textDragBottomSheetMusicList.isVisible = true
+//                            layoutMusicMiniBar.isVisible = false
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+            })
+        }
+        layoutBottomSheetMusicList.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
         postponeEnterTransition()
         toolbar_music_play.setNavigationOnClickListener { supportFinishAfterTransition() }
         toolbar_music_play.inflateMenu(R.menu.toolbar_music_play)
         window.translucentSystemUI(true)
         adjustViewMargin()
+        toolbarMusicMiniBar.measure(View.MeasureSpec.UNSPECIFIED,View.MeasureSpec.UNSPECIFIED)
+        textDragBottomSheetMusicList.layoutParams = textDragBottomSheetMusicList.layoutParams.apply {
+            height = toolbarMusicMiniBar.measuredHeight
+        }
+
+        bottomSheetBehavior.peekHeight = toolbarMusicMiniBar.measuredHeight
+        layoutMusicMiniBar.elevation = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,4f,resources.displayMetrics)
         bindService(Intent(this,PlayMusicService::class.java),conn, Service.BIND_AUTO_CREATE)
     }
 
@@ -234,6 +329,8 @@ class MusicPlayActivity : AppCompatActivity() {
                 rippleColor = getColorStateList(R.color.white)
             }
         }
+        toolbarMusicMiniBar.menu.findItem(R.id.buttonPlayMusicToolbar).icon =
+            if (isPlaying) getDrawable(R.drawable.ic_pause_black_24dp) else getDrawable(R.drawable.ic_play_arrow_black_24dp)
     }
 
     override fun onResume() {
@@ -264,7 +361,40 @@ class MusicPlayActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        supportFinishAfterTransition()
+        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        else
+            supportFinishAfterTransition()
     }
 
+    private inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+
+    }
+    private inner class ItemAdapter internal constructor(private val list: java.util.ArrayList<MusicModel>) :
+        RecyclerView.Adapter<MusicPlayActivity.ViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicPlayActivity.ViewHolder {
+            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_list_dialog_item, parent, false))
+        }
+
+        override fun onBindViewHolder(holder: MusicPlayActivity.ViewHolder, position: Int) {
+            list[position].run {
+                holder.itemView.apply {
+                    textMusicTitle.text = title
+                    textMusicAlbum.text = String.format("%s - %s",artist,album)
+                    setOnClickListener {
+                        musicBinder?.apply {
+                            playList = this@ItemAdapter.list
+                            playIndex = position
+                            play(playList[playIndex].path)
+                        }
+                    }
+                }
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return list.size
+        }
+    }
 }

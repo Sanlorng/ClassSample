@@ -159,27 +159,39 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_shuffle_black_24dp"/>
     </LinearLayout>
-    <RelativeLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layoutBottomSheetMusicList"
         app:layout_behavior="@string/bottom_sheet_behavior"
         app:behavior_hideable="true"
         app:behavior_peekHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/textDragBottomSheetMusicList"
             android:gravity="center"
             android:textColor="#000000"
             android:text="@string/extendPlayList"
             android:drawableStart="@drawable/ic_keyboard_arrow_up_black_24dp"
-            android:background="?attr/selectableItemBackground"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize" />
+        <include
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/layout_music_play_mini_bar" />
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@id/textDragBottomSheetMusicList"
+            android:id="@+id/listDragBottomSheetMusicList"
+            android:layout_below="@id/layoutMusicMiniBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

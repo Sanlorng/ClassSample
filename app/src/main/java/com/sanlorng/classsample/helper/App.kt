@@ -7,6 +7,29 @@ import androidx.core.view.*
 object App {
 }
 
+fun View.marginTopStatusBarHeight() {
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        (layoutParams as ViewGroup.MarginLayoutParams).apply {
+            topMargin += context.let {
+                it.resources.getDimensionPixelOffset(it.resources.getIdentifier("status_bar_height","dimen","android"))
+            }
+            layoutParams = this
+        }
+    }
+}
+
+fun View.paddingTopStatusBarHeight() {
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        (layoutParams as ViewGroup.MarginLayoutParams).apply {
+            val padding = paddingTop + context.let {
+                it.resources.getDimensionPixelOffset(it.resources.getIdentifier("status_bar_height","dimen","android"))
+            }
+            setPadding(paddingLeft,padding,paddingRight,paddingBottom)
+            layoutParams = this
+        }
+    }
+}
+
 fun View.adjustMargin(percent: Float) {
     when(layoutParams) {
         is ViewGroup.MarginLayoutParams -> {
