@@ -98,7 +98,7 @@ class DialogProcessActivity : AppCompatActivity() {
         }
     }
 }
-fun AlertDialog.textButtonStyle() {
+fun AlertDialog.textButtonStyle():AlertDialog {
     val color = context.getColor(R.color.colorAccent)
     val typedValue = TypedValue()
     context.theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue , true)
@@ -110,4 +110,5 @@ fun AlertDialog.textButtonStyle() {
             background = typedArray.getDrawable(0)
         }
     }
+    return this
 }

@@ -238,7 +238,7 @@ class MusicPlayActivity : AppCompatActivity() {
         toolbarMusicMiniBar.menu.findItem(R.id.buttonPlayListToolbar).isVisible = false
         toolbarMusicMiniBar.menu.findItem(R.id.nextPlayTypeToolbar).isVisible = true
         layoutMusicMiniBar.alpha = 0f
-        layoutMusicMiniBar.isVisible = true
+//        layoutMusicMiniBar.isVisible = true
         toolbarMusicMiniBar.setOnMenuItemClickListener {
             musicBinder?.apply {
 
@@ -259,6 +259,7 @@ class MusicPlayActivity : AppCompatActivity() {
                     Log.e("offset",slideOffset.toString())
                     layoutMusicMiniBar.alpha = slideOffset
                     textDragBottomSheetMusicList.alpha = 1 - slideOffset
+                    layoutMusicMiniBar.isVisible = slideOffset!= 0f
                 }
 
 

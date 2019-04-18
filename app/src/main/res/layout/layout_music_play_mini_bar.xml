@@ -42,20 +42,22 @@
                     tools:src="@drawable/drawable_gradient" />
                 <TextView
                     android:id="@+id/titleMusicMiniBar"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:textColor="#000000"
                     android:textSize="12sp"
                     android:transitionName="musicTitle"
                     app:layout_constraintStart_toEndOf="@+id/albumMusicMiniBar"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/albumMusicMiniBar" />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/subTitleMusicMiniBar"
                     app:layout_constraintStart_toStartOf="@+id/titleMusicMiniBar"
                     app:layout_constraintTop_toBottomOf="@+id/titleMusicMiniBar"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:textSize="12sp"
                     android:transitionName="musicSubTitle"
                     android:maxLines="1"
